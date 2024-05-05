@@ -11,7 +11,6 @@ interface CreateRegistrationParams {
 
 export class CreateRegistrationUsecase {
   public async execute(data: CreateRegistrationParams): Promise<Return> {
-    console.log(data);
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
 
