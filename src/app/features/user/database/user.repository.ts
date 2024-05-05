@@ -14,8 +14,6 @@ export class UserRepository {
       password,
     });
 
-    console.log(result);
-
     if (!result) {
       return null;
     }
