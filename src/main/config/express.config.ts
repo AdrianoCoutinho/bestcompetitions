@@ -1,5 +1,7 @@
 import cors from "cors";
 import express from "express";
+import { clipRoutes } from "../../app/features/clip/routes/clip.routes";
+import { competitionRoutes } from "../../app/features/competition/routes/competition.routes";
 import { loginRoutes } from "../../app/features/login/routes/login.routes";
 import { registerRoutes } from "../../app/features/register/routes/register.routes";
 
@@ -11,6 +13,10 @@ export const createApp = () => {
   app.use("/auth", loginRoutes());
 
   app.use("/register", registerRoutes());
+
+  app.use("/competition", competitionRoutes());
+
+  app.use("/clip", clipRoutes());
 
   return app;
 };

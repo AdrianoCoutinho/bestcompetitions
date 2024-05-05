@@ -54,7 +54,6 @@ export class User {
   public toJson() {
     return {
       _id: this._id,
-
       email: this.email,
       name: this.name,
       phone: this.phone,

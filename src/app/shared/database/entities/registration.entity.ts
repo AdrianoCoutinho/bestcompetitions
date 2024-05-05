@@ -3,7 +3,7 @@ import { ClipEntity } from "./clip.entity";
 import { CompetitionEntity } from "./competition.entity";
 import { UserEntity } from "./user.entity";
 
-@Entity("Registration")
+@Entity("registration")
 export class RegistrationEntity {
   @PrimaryColumn()
   id: string;

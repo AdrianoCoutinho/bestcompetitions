@@ -35,11 +35,19 @@ export class LoginUsecase {
 
     const token = JwtAdapter.createToken(usuario.toJson());
 
+    const userToMessage = {
+      id: usuario.id,
+      emaiL: usuario.email,
+      name: usuario.name,
+      typeUser: usuario.typeUser,
+      token: token,
+    };
+
     return {
       ok: true,
       message: "Login feito com sucesso",
       data: {
-        ...usuario,
+        ...userToMessage,
         token,
       },
       code: 200,

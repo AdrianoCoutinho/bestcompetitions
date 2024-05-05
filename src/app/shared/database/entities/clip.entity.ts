@@ -10,7 +10,9 @@ export class ClipEntity {
   })
   url: string;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   views: number;
 
   @CreateDateColumn({

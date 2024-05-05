@@ -13,6 +13,9 @@ export class CompetitionEntity {
   id: string;
 
   @Column()
+  name: string;
+
+  @Column()
   initialDate: Date;
 
   @ManyToOne(() => UserEntity)
@@ -24,10 +27,14 @@ export class CompetitionEntity {
   @Column()
   hashtag: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   winner: string;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   participants: number;
 
   @Column({
@@ -50,6 +57,11 @@ export class CompetitionEntity {
     unique: true,
   })
   youtube: string;
+
+  @Column({
+    default: true,
+  })
+  indActive: boolean;
 
   @CreateDateColumn({
     name: "dthr_register",

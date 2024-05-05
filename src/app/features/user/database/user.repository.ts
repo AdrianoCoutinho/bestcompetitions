@@ -38,6 +38,7 @@ export class UserRepository {
       id: user.id,
       name: user.name,
       email: user.email,
+      phone: user.phone,
       password: user.password,
     });
 

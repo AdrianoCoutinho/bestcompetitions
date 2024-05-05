@@ -3,7 +3,7 @@ import { v4 as createUuid } from "uuid";
 export class Clip {
   private _id: string;
 
-  constructor(public url: string, public views: number) {
+  constructor(public url: string, public views?: number) {
     this._id = createUuid();
   }
 
