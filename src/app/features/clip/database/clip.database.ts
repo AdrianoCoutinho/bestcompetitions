@@ -9,6 +9,8 @@ export class ClipRepository {
     const taskEntity = this.repository.create({
       id: clip.id,
       url: clip.url,
+      idUser: clip.idUser,
+      idCompetition: clip.idCompetition,
       views: clip.views,
     });
 
@@ -35,7 +37,13 @@ export class ClipRepository {
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {
-    const clip = Clip.create(entity.id, entity.url, entity.views);
+    const clip = Clip.create(
+      entity.id,
+      entity.url,
+      entity.idUser,
+      entity.idCompetition,
+      entity.views
+    );
 
     return clip;
   }

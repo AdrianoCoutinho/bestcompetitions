@@ -4,11 +4,13 @@ import { ClipRepository } from "../database/clip.database";
 
 interface CreateClipParams {
   url: string;
+  idUser: string;
+  idCompetition: string;
 }
 
 export class CreateClipUsecase {
   public async execute(data: CreateClipParams): Promise<Return> {
-    const clip = new Clip(data.url);
+    const clip = new Clip(data.url, data.idUser, data.idCompetition);
 
     const repository = new ClipRepository();
     await repository.create(clip);

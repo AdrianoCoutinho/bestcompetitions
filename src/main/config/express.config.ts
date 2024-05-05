@@ -4,6 +4,7 @@ import { clipRoutes } from "../../app/features/clip/routes/clip.routes";
 import { competitionRoutes } from "../../app/features/competition/routes/competition.routes";
 import { loginRoutes } from "../../app/features/login/routes/login.routes";
 import { registerRoutes } from "../../app/features/register/routes/register.routes";
+import { registrationRoutes } from "../../app/features/registration/routes/registration.routes";
 
 export const createApp = () => {
   const app = express();
@@ -17,6 +18,8 @@ export const createApp = () => {
   app.use("/competition", competitionRoutes());
 
   app.use("/clip", clipRoutes());
+
+  app.use("/registration", registrationRoutes());
 
   return app;
 };

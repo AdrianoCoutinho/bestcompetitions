@@ -19,7 +19,7 @@ export class CompetitionEntity {
   initialDate: Date;
 
   @ManyToOne(() => UserEntity)
-  owner: UserEntity;
+  user: UserEntity;
 
   @Column()
   finalDate: Date;

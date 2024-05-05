@@ -1,5 +1,4 @@
 import { CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { ClipEntity } from "./clip.entity";
 import { CompetitionEntity } from "./competition.entity";
 import { UserEntity } from "./user.entity";
 
@@ -8,14 +7,11 @@ export class RegistrationEntity {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => ClipEntity)
-  idClip: ClipEntity;
-
   @ManyToOne(() => UserEntity)
-  idUser: UserEntity;
+  idUser: string;
 
   @ManyToOne(() => CompetitionEntity)
-  idCompetition: CompetitionEntity;
+  idCompetition: string;
 
   @CreateDateColumn({
     name: "dthr_register",

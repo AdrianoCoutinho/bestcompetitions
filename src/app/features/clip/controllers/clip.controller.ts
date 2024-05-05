@@ -5,11 +5,13 @@ import { CreateClipUsecase } from "../usecases/clip-cretate.usecase";
 export class ClipController {
   public async create(req: Request, res: Response) {
     try {
-      const { url } = req.body;
+      const { url, idUser, idCompetition } = req.body;
 
       const usecase = new CreateClipUsecase();
       const result = await usecase.execute({
         url,
+        idUser,
+        idCompetition,
       });
 
       return res.status(result.code).send(result);
