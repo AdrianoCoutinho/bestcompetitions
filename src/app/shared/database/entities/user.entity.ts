@@ -24,6 +24,7 @@ export class UserEntity {
     type: "varchar",
     length: 1,
     enum: ["A", "C", "I"],
+    default: "C",
   })
   type: Typeuser;
 

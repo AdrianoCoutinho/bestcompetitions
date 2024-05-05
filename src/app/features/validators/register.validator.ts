@@ -21,7 +21,7 @@ export class RegisterValidator {
       }
 
       if (!phone) {
-        return RequestError.fieldNotProvided(res, "name");
+        return RequestError.fieldNotProvided(res, "phone");
       }
 
       if (!password) {

@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { JwtAdapter } from "../../../shared/util/jwt.adapter";
 import { Return } from "../../../shared/util/return.contract";
 import { UserRepository } from "../../user/database/user.repository";
@@ -9,8 +10,12 @@ interface LoginParams {
 
 export class LoginUsecase {
   public async execute(data: LoginParams): Promise<Return> {
+    const hashpassword = await bcrypt.hash(
+      data.password,
+      "$2b$10$BLOX9oUHmeJZJv6/QonGU."
+    );
     const repository = new UserRepository();
-    const usuario = await repository.getByEmail(data.email, data.password);
+    const usuario = await repository.getByEmail(data.email, hashpassword);
 
     if (!usuario) {
       return {
@@ -20,7 +25,7 @@ export class LoginUsecase {
       };
     }
 
-    if (usuario.password != data.password) {
+    if (usuario.password != hashpassword) {
       return {
         ok: false,
         message: "Email ou senha incorretos!",

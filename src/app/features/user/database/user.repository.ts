@@ -1,5 +1,5 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
-import { Typeuser, User } from "../../../models/user.model";
+import { User } from "../../../models/user.model";
 import { UserEntity } from "../../../shared/database/entities/user.entity";
 
 export class UserRepository {
@@ -13,6 +13,8 @@ export class UserRepository {
       email,
       password,
     });
+
+    console.log(result);
 
     if (!result) {
       return null;
@@ -36,24 +38,17 @@ export class UserRepository {
   public async create(user: User) {
     const userEntity = this.repository.create({
       id: user.id,
-      email: user.email,
       name: user.name,
-      phone: user.phone,
+      email: user.email,
       password: user.password,
-      type: user.typeUser,
-      tiktok: user.tiktok,
-      instagram: user.instagram,
-      youtube: user.youtube,
     });
 
     const result = await this.repository.save(userEntity);
     return UserRepository.mapEntityToModel(result);
   }
 
-  public async list(type?: Typeuser) {
-    const result = await this.repository.findBy({
-      type,
-    });
+  public async list() {
+    const result = await this.repository.findBy({});
 
     return result.map((item) => UserRepository.mapEntityToModel(item));
   }
