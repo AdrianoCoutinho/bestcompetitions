@@ -52,6 +52,25 @@ export class UserRepository {
     return result.map((item) => UserRepository.mapEntityToModel(item));
   }
 
+  public async changeUsernameTiktok(id: string, username: string) {
+    const user = await this.repository.findOneBy({
+      id,
+    });
+
+    if (user === null) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Usuário não encontrada",
+        data: null,
+      };
+    }
+    user.tiktok = username;
+    await this.repository.save(user);
+
+    return user.tiktok;
+  }
+
   public static mapEntityToModel(entity: UserEntity): User {
     return User.create(
       entity.id,

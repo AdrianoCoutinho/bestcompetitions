@@ -23,7 +23,6 @@ export class ApifyController {
         const { username } = req.body;
         const usecase = new ValidateUserUsecase();
         const result = await usecase.execute({
-          username,
           userId,
         });
         return res.status(result.code).send(result);

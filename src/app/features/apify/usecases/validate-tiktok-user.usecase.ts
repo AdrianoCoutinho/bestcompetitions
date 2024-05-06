@@ -1,6 +1,7 @@
 import { verifyTiktokUser } from "../../../shared/apify";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { Return } from "../../../shared/util/return.contract";
+import { UserRepository } from "../../user/database/user.repository";
 
 interface CreateValidationParams {
   userId: string;
@@ -11,8 +12,11 @@ export class validateTiktokUserUsecase {
   public async execute(data: CreateValidationParams): Promise<Return> {
     const result = await verifyTiktokUser(data.url);
     const cacheRepository = new CacheRepository();
+    const user = new UserRepository();
+    const hashtagID = cacheRepository.get(`hashtagvalidation${data.userId}`);
+
     const hashtag = result[0].hashtags.find((item: any) => {
-      return item.name === "volkswagen"; // Utilize 'return' para retornar o resultado da comparação
+      return item.name === hashtagID;
     });
 
     if (!hashtag) {
@@ -24,8 +28,9 @@ export class validateTiktokUserUsecase {
       };
     }
 
-    const username = await new CacheRepository().get(
-      `hashtagvalidationUsername${data.userId}`
+    const checkedUsername = await user.changeUsernameTiktok(
+      data.userId,
+      result[0].authorMeta.name
     );
 
     await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
@@ -37,7 +42,7 @@ export class validateTiktokUserUsecase {
       ok: true,
       code: 201,
       message: `Você concluiu a verificação!`,
-      data: result[0].hashtags,
+      data: checkedUsername,
     };
   }
 }
