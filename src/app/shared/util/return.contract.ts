@@ -3,4 +3,5 @@ export interface Return {
   code: number;
   message: string;
   data?: any;
+  hashtags?: any;
 }

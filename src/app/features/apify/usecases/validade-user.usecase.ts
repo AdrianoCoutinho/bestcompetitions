@@ -12,15 +12,13 @@ export class ValidateUserUsecase {
 
     const originalUuid = uuidv4();
     const truncatedUuid = originalUuid.slice(0, 8);
-    console.log("UUID truncado:", truncatedUuid);
 
     const deleteCacheKey = async () => {
-      await new CacheRepository().delete(`hashtagvalidation`);
-      await new CacheRepository().delete(`hashtagvalidationVideoUrl`);
+      await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
     };
 
     await cacheRepository.set(`hashtagvalidation${data.userId}`, truncatedUuid);
-    setTimeout(deleteCacheKey, 60000);
+    setTimeout(deleteCacheKey, 300000);
 
     return {
       ok: true,

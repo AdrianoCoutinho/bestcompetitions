@@ -11,9 +11,15 @@ interface CreateValidationParams {
 export class validateTiktokUserUsecase {
   public async execute(data: CreateValidationParams): Promise<Return> {
     const result = await verifyTiktokUser(data.url);
+
     const cacheRepository = new CacheRepository();
+
     const user = new UserRepository();
-    const hashtagID = cacheRepository.get(`hashtagvalidation${data.userId}`);
+    const username = user.get(data.userId);
+
+    const hashtagID = await cacheRepository.get(
+      `hashtagvalidation${data.userId}`
+    );
 
     const hashtag = result[0].hashtags.find((item: any) => {
       return item.name === hashtagID;
@@ -24,7 +30,8 @@ export class validateTiktokUserUsecase {
         ok: false,
         code: 404,
         message: `A hashtag não foi encontrada!`,
-        data: result[0].hashtags,
+        data: hashtagID,
+        hashtags: result[0].hashtags,
       };
     }
 
@@ -33,16 +40,18 @@ export class validateTiktokUserUsecase {
       result[0].authorMeta.name
     );
 
-    await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
-    await new CacheRepository().delete(
-      `hashtagvalidationUsername${data.userId}`
-    );
+    if (checkedUsername === result[0].authorMeta.name) {
+      await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
+      await new CacheRepository().delete(
+        `hashtagvalidationUsername${data.userId}`
+      );
+    }
 
     return {
       ok: true,
       code: 201,
       message: `Você concluiu a verificação!`,
-      data: checkedUsername,
+      data: result[0].hashtags,
     };
   }
 }
