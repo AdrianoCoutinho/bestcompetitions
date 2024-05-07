@@ -13,5 +13,7 @@ export const competitionRoutes = () => {
     new CompetitionController().getCompetition
   );
 
+  router.get("/", [checkLoginValidator], new CompetitionController().list);
+
   return router;
 };

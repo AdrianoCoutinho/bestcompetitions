@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { CreateCompetitionUsecase } from "../usecases/create-competition.usecase";
 import { GetCompetitionUsecase } from "../usecases/get-competition.usecase";
+import { ListCompetitionsUsecase } from "../usecases/list-competition.usecase";
 
 export class CompetitionController {
   public async create(req: Request, res: Response) {
@@ -60,6 +61,18 @@ export class CompetitionController {
       const usecase = new GetCompetitionUsecase();
 
       const result = await usecase.execute({ competitionId });
+
+      return res.status(result.code).send(result);
+    } catch (error: any) {
+      return ApiError.serverError(res, error);
+    }
+  }
+
+  public async list(req: Request, res: Response) {
+    try {
+      const usecase = new ListCompetitionsUsecase();
+
+      const result = await usecase.execute();
 
       return res.status(result.code).send(result);
     } catch (error: any) {
