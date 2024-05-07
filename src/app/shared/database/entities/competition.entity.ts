@@ -15,11 +15,16 @@ export class CompetitionEntity {
   @Column()
   name: string;
 
+  @Column({ default: 0 })
+  views: number;
+
   @Column()
   initialDate: Date;
 
-  @ManyToOne(() => UserEntity)
-  user: UserEntity;
+  @ManyToOne(() => UserEntity, {
+    nullable: false,
+  })
+  idUser: string;
 
   @Column()
   finalDate: Date;

@@ -38,6 +38,8 @@ export class CreateRegistrationUsecase {
     const repository = new RegistrationRepository();
     await repository.create(registration);
 
+    await competitionRepository.addParticipant(competition.id);
+
     return {
       ok: true,
       code: 201,

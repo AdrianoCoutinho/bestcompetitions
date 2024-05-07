@@ -15,7 +15,6 @@ export class validateTiktokUserUsecase {
     const cacheRepository = new CacheRepository();
 
     const user = new UserRepository();
-    const username = user.get(data.userId);
 
     const hashtagID = await cacheRepository.get(
       `hashtagvalidation${data.userId}`

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
-import { ValidateUserUsecase } from "../usecases/validade-user.usecase";
 import { validateTiktokUserUsecase } from "../usecases/validate-tiktok-user.usecase";
+import { ValidateUserUsecase } from "../usecases/validate-user.usecase";
 
 export class ApifyController {
   public async TiktokUser(req: Request, res: Response) {

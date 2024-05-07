@@ -8,6 +8,7 @@ export class Competition {
     public initialDate: Date,
     public finalDate: Date,
     public hashtag: string,
+    public idUser: string,
     public winner?: string,
     public participants?: number,
     public tiktok?: string,
@@ -24,6 +25,7 @@ export class Competition {
     initialDate: Date,
     finalDate: Date,
     hashtag: string,
+    idUser: string,
     winner: string,
     participants: number,
     tiktok: string,
@@ -31,11 +33,12 @@ export class Competition {
     youtube: string,
     indActive: boolean
   ) {
-    const user = new Competition(
+    const competition = new Competition(
       name,
       initialDate,
       finalDate,
       hashtag,
+      idUser,
       winner,
       participants,
       tiktok,
@@ -43,8 +46,8 @@ export class Competition {
       youtube,
       indActive
     );
-    user._id = id;
-    return user;
+    competition._id = id;
+    return competition;
   }
 
   public get id() {
@@ -58,6 +61,7 @@ export class Competition {
       initialDate: this.initialDate,
       finalDate: this.finalDate,
       hashtag: this.hashtag,
+      user: this.idUser,
       winner: this.winner,
       participants: this.participants,
       tiktok: this.tiktok,

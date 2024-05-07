@@ -10,25 +10,27 @@ interface CreateCompetitionParams {
   tiktok: string;
   instagram: string;
   youtube: string;
+  idUser: string;
 }
 
 export class CreateCompetitionUsecase {
   public async execute(data: CreateCompetitionParams): Promise<Return> {
-    const task = new Competition(
+    const competition = new Competition(
       data.name,
       data.initialDate,
       data.finalDate,
-      data.hashtag
+      data.hashtag,
+      data.idUser
     );
 
     const repository = new CompetitionRepository();
-    await repository.create(task);
+    await repository.create(competition);
 
     return {
       ok: true,
       code: 201,
       message: "A Competição foi criada com sucesso.",
-      data: task,
+      data: competition,
     };
   }
 }

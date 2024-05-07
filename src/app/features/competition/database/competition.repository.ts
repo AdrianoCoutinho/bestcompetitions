@@ -13,6 +13,7 @@ export class CompetitionRepository {
       initialDate: competition.initialDate,
       finalDate: competition.finalDate,
       hashtag: competition.hashtag,
+      idUser: competition.idUser,
       winner: competition.winner,
       participants: competition.participants,
       tiktok: competition.tiktok,
@@ -33,7 +34,7 @@ export class CompetitionRepository {
       where: {
         id,
       },
-      relations: ["user"],
+      relations: ["idUser"],
     });
 
     if (result === null) {
@@ -43,6 +44,25 @@ export class CompetitionRepository {
     return CompetitionRepository.mapEntityToModel(result);
   }
 
+  public async addParticipant(id: string) {
+    const competition = await this.repository.findOneBy({
+      id,
+    });
+
+    if (competition === null) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Competição não encontrada",
+        data: null,
+      };
+    }
+    competition.participants += 1;
+    await this.repository.save(competition);
+
+    return competition.tiktok;
+  }
+
   public static mapEntityToModel(entity: CompetitionEntity): Competition {
     const competition = Competition.create(
       entity.id,
@@ -50,6 +70,7 @@ export class CompetitionRepository {
       entity.initialDate,
       entity.finalDate,
       entity.hashtag,
+      entity.idUser,
       entity.winner,
       entity.participants,
       entity.tiktok,
