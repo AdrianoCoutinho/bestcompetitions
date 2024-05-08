@@ -8,7 +8,7 @@ export class ClipRepository {
   private repository = TypeormConnection.connection.getRepository(ClipEntity);
 
   public async create(clip: Clip) {
-    const taskEntity = this.repository.create({
+    const clipEntity = this.repository.create({
       id: clip.id,
       url: clip.url,
       user: clip.user,
@@ -16,7 +16,7 @@ export class ClipRepository {
       views: clip.views,
     });
 
-    await this.repository.save(taskEntity);
+    await this.repository.save(clipEntity);
   }
 
   public async get(id: string) {
@@ -36,6 +36,25 @@ export class ClipRepository {
     }
 
     return ClipRepository.mapEntityToModel(result);
+  }
+
+  public async listPerCompetition(idCompetition: string) {
+    if (!idCompetition) {
+      return null;
+    }
+
+    const result = await this.repository.find({
+      where: {
+        idCompetition: idCompetition,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {

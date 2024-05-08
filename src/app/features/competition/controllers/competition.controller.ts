@@ -79,45 +79,4 @@ export class CompetitionController {
       return ApiError.serverError(res, error);
     }
   }
-
-  //   public async updateTask(req: Request, res: Response) {
-  //     try {
-  //       const { idTask } = req.params;
-  //       const { title, description } = req.body;
-
-  //       const usecase = new UpdateTaskUsecase();
-
-  //       const result = await usecase.execute({ idTask, title, description });
-
-  //       return res.status(result.code).send(result);
-  //     } catch (error: any) {
-  //       return ApiError.serverError(res, error);
-  //     }
-  //   }
-
-  //   public async changeStatus(req: Request, res: Response) {
-  //     try {
-  //       const { idTask } = req.params;
-  //       const usecase = new UpdateStatusTaskUsecase();
-
-  //       const result = await usecase.execute(idTask);
-
-  //       return res.status(result.code).send(result);
-  //     } catch (error: any) {
-  //       return ApiError.serverError(res, error);
-  //     }
-  //   }
-
-  //   public async deleteTask(req: Request, res: Response) {
-  //     try {
-  //       const { idTask } = req.params;
-  //       const usecase = new DeleteTaskUsecase();
-
-  //       const result = await usecase.execute(idTask);
-
-  //       return res.status(result.code).send(result);
-  //     } catch (error: any) {
-  //       return ApiError.serverError(res, error);
-  //     }
-  //   }
 }

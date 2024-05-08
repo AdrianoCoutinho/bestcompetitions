@@ -9,7 +9,7 @@ export class ListCompetitionsUsecase {
     return {
       ok: true,
       code: 200,
-      message: "A Competição foi obtida com sucesso.",
+      message: "As Competições foram obtidas com sucesso.",
       data: result,
     };
   }

@@ -8,7 +8,7 @@ export class CompetitionRepository {
     TypeormConnection.connection.getRepository(CompetitionEntity);
 
   public async create(competition: Competition) {
-    const taskEntity = this.repository.create({
+    const clipEntity = this.repository.create({
       id: competition.id,
       name: competition.name,
       initialDate: competition.initialDate,
@@ -23,7 +23,7 @@ export class CompetitionRepository {
       indActive: competition.indActive,
     });
 
-    await this.repository.save(taskEntity);
+    await this.repository.save(clipEntity);
   }
 
   public async get(id: string) {
@@ -43,6 +43,16 @@ export class CompetitionRepository {
     }
 
     return CompetitionRepository.mapEntityToModel(result);
+  }
+
+  public async list() {
+    const result = await this.repository.find();
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
   }
 
   public static mapEntityToModel(entity: CompetitionEntity): Competition {
