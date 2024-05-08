@@ -1,9 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Typeuser } from "../../../models/user.model";
 
 @Entity("user")
 export class UserEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({
@@ -30,19 +35,16 @@ export class UserEntity {
 
   @Column({
     nullable: true,
-    name: "tiktok",
   })
   tiktok: string;
 
   @Column({
     nullable: true,
-    name: "instagram",
   })
   instagram: string;
 
   @Column({
     nullable: true,
-    name: "youtube",
   })
   youtube: string;
 

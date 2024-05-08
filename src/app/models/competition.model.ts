@@ -1,4 +1,5 @@
 import { v4 as createUuid } from "uuid";
+import { User } from "./user.model";
 
 export class Competition {
   private _id: string;
@@ -8,7 +9,7 @@ export class Competition {
     public initialDate: Date,
     public finalDate: Date,
     public hashtag: string,
-    public idUser: string,
+    public user: User,
     public winner?: string,
     public participants?: number,
     public tiktok?: string,
@@ -25,7 +26,7 @@ export class Competition {
     initialDate: Date,
     finalDate: Date,
     hashtag: string,
-    idUser: string,
+    user: User,
     winner: string,
     participants: number,
     tiktok: string,
@@ -38,7 +39,7 @@ export class Competition {
       initialDate,
       finalDate,
       hashtag,
-      idUser,
+      user,
       winner,
       participants,
       tiktok,
@@ -61,7 +62,7 @@ export class Competition {
       initialDate: this.initialDate,
       finalDate: this.finalDate,
       hashtag: this.hashtag,
-      user: this.idUser,
+      user: this.user,
       winner: this.winner,
       participants: this.participants,
       tiktok: this.tiktok,

@@ -1,6 +1,7 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Competition } from "../../../models/competition.model";
 import { CompetitionEntity } from "../../../shared/database/entities/competition.entity";
+import { UserRepository } from "../../user/database/user.repository";
 
 export class CompetitionRepository {
   private repository =
@@ -13,7 +14,7 @@ export class CompetitionRepository {
       initialDate: competition.initialDate,
       finalDate: competition.finalDate,
       hashtag: competition.hashtag,
-      idUser: competition.idUser,
+      idUser: competition.user.id,
       winner: competition.winner,
       participants: competition.participants,
       tiktok: competition.tiktok,
@@ -34,7 +35,7 @@ export class CompetitionRepository {
       where: {
         id,
       },
-      relations: ["idUser"],
+      relations: ["user"],
     });
 
     if (result === null) {
@@ -44,41 +45,16 @@ export class CompetitionRepository {
     return CompetitionRepository.mapEntityToModel(result);
   }
 
-  public async list() {
-    const result = await this.repository.find({
-      relations: ["idUser"],
-    });
-
-    return result.map((item) => CompetitionRepository.mapEntityToModel(item));
-  }
-
-  public async addParticipant(id: string) {
-    const competition = await this.repository.findOneBy({
-      id,
-    });
-
-    if (competition === null) {
-      return {
-        ok: false,
-        code: 404,
-        message: "Competição não encontrada",
-        data: null,
-      };
-    }
-    competition.participants += 1;
-    await this.repository.save(competition);
-
-    return competition.tiktok;
-  }
-
   public static mapEntityToModel(entity: CompetitionEntity): Competition {
+    const user = UserRepository.mapEntityToModel(entity.user);
+
     const competition = Competition.create(
       entity.id,
       entity.name,
       entity.initialDate,
       entity.finalDate,
       entity.hashtag,
-      entity.idUser,
+      user,
       entity.winner,
       entity.participants,
       entity.tiktok,

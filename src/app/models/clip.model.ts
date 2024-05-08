@@ -1,12 +1,14 @@
 import { v4 as createUuid } from "uuid";
+import { Competition } from "./competition.model";
+import { User } from "./user.model";
 
 export class Clip {
   private _id: string;
 
   constructor(
     public url: string,
-    public idUser: string,
-    public idCompetition: string,
+    public user: User,
+    public competition: Competition,
     public views?: number
   ) {
     this._id = createUuid();
@@ -15,13 +17,13 @@ export class Clip {
   public static create(
     id: string,
     url: string,
-    idUser: string,
-    idCompetition: string,
+    user: User,
+    competition: Competition,
     views: number
   ) {
-    const user = new Clip(url, idUser, idCompetition, views);
-    user._id = id;
-    return user;
+    const clip = new Clip(url, user, competition, views);
+    clip._id = id;
+    return clip;
   }
 
   public get id() {
@@ -32,8 +34,8 @@ export class Clip {
     return {
       _id: this._id,
       url: this.url,
-      idUser: this.idUser,
-      idCompetition: this.idCompetition,
+      idUser: this.user,
+      idCompetition: this.competition,
       views: this.views,
     };
   }

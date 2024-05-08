@@ -1,6 +1,8 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Clip } from "../../../models/clip.model";
 import { ClipEntity } from "../../../shared/database/entities/clip.entity";
+import { CompetitionRepository } from "../../competition/database/competition.repository";
+import { UserRepository } from "../../user/database/user.repository";
 
 export class ClipRepository {
   private repository = TypeormConnection.connection.getRepository(ClipEntity);
@@ -9,8 +11,8 @@ export class ClipRepository {
     const taskEntity = this.repository.create({
       id: clip.id,
       url: clip.url,
-      idUser: clip.idUser,
-      idCompetition: clip.idCompetition,
+      user: clip.user,
+      competition: clip.competition,
       views: clip.views,
     });
 
@@ -37,11 +39,16 @@ export class ClipRepository {
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {
+    const user = UserRepository.mapEntityToModel(entity.user);
+    const competition = CompetitionRepository.mapEntityToModel(
+      entity.competition
+    );
+
     const clip = Clip.create(
       entity.id,
       entity.url,
-      entity.idUser,
-      entity.idCompetition,
+      user,
+      competition,
       entity.views
     );
 

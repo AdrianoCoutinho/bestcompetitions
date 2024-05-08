@@ -2,15 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { CompetitionEntity } from "./competition.entity";
 import { UserEntity } from "./user.entity";
 
 @Entity("clip")
 export class ClipEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({
@@ -18,20 +19,34 @@ export class ClipEntity {
   })
   url: string;
 
-  @Column({
-    default: 0,
-  })
+  @Column({ default: 0 })
   views: number;
 
-  @ManyToOne(() => UserEntity, {
-    nullable: false,
+  @Column({
+    name: "id_user",
   })
   idUser: string;
 
-  @ManyToOne(() => CompetitionEntity, {
-    nullable: false,
+  @ManyToOne(() => UserEntity, {
+    cascade: true,
+  })
+  @JoinColumn({
+    name: "id_user",
+  })
+  user: UserEntity;
+
+  @Column({
+    name: "id_competition",
   })
   idCompetition: string;
+
+  @ManyToOne(() => CompetitionEntity, {
+    cascade: true,
+  })
+  @JoinColumn({
+    name: "id_competition",
+  })
+  competition: CompetitionEntity;
 
   @CreateDateColumn({
     name: "dthr_register",

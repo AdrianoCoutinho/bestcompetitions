@@ -2,14 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 @Entity("competition")
 export class CompetitionEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -20,11 +21,6 @@ export class CompetitionEntity {
 
   @Column()
   initialDate: Date;
-
-  @ManyToOne(() => UserEntity, {
-    nullable: false,
-  })
-  idUser: string;
 
   @Column()
   finalDate: Date;
@@ -37,36 +33,42 @@ export class CompetitionEntity {
   })
   winner: string;
 
-  @Column({
-    default: 0,
-  })
+  @Column({ default: 0 })
   participants: number;
 
   @Column({
     nullable: true,
-    name: "tiktok",
     unique: true,
   })
   tiktok: string;
 
   @Column({
     nullable: true,
-    name: "instagram",
     unique: true,
   })
   instagram: string;
 
   @Column({
     nullable: true,
-    name: "youtube",
     unique: true,
   })
   youtube: string;
 
-  @Column({
-    default: true,
-  })
+  @Column({ default: true })
   indActive: boolean;
+
+  @Column({
+    name: "id_user",
+  })
+  idUser: string;
+
+  @ManyToOne(() => UserEntity, {
+    cascade: true,
+  })
+  @JoinColumn({
+    name: "id_user",
+  })
+  user: UserEntity;
 
   @CreateDateColumn({
     name: "dthr_register",
