@@ -28,7 +28,7 @@ export class ClipRepository {
       where: {
         id,
       },
-      relations: ["registration"],
+      relations: ["user", "competition"],
     });
 
     if (result === null) {
@@ -55,6 +55,51 @@ export class ClipRepository {
     }
 
     return result;
+  }
+
+  public async getViews(idCompetition: string) {
+    if (!idCompetition) {
+      return null;
+    }
+
+    const result = await this.repository.find({
+      where: {
+        idCompetition: idCompetition,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
+  public async UpdateView(id: string, playcount: number) {
+    console.log(typeof id);
+    console.log(typeof playcount);
+    console.log(id);
+    console.log(playcount);
+
+    const clip = await this.repository.findOneBy({
+      id,
+    });
+
+    console.log(clip);
+
+    if (clip === null) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Clip não encontrado",
+        data: null,
+      };
+    }
+    clip.views = playcount;
+    await this.repository.save(clip);
+
+    return clip.views;
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {

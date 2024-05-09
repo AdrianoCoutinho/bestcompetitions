@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { CreateClipUsecase } from "../usecases/clip-cretate.usecase";
+import { GetAllIdsUsecase } from "../usecases/get-all-ids.usecase";
 
 export class ClipController {
   public async create(req: Request, res: Response) {
@@ -13,6 +14,19 @@ export class ClipController {
         idUser,
         idCompetition,
       });
+
+      return res.status(result.code).send(result);
+    } catch (error: any) {
+      return ApiError.serverError(res, error);
+    }
+  }
+
+  public async getAllIds(req: Request, res: Response) {
+    try {
+      const { idCompetition } = req.body;
+
+      const usecase = new GetAllIdsUsecase();
+      const result = await usecase.execute({ idCompetition });
 
       return res.status(result.code).send(result);
     } catch (error: any) {

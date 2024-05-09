@@ -6,5 +6,7 @@ export const clipRoutes = () => {
 
   router.post("/", new ClipController().create);
 
+  router.get("/clipsId", new ClipController().getAllIds);
+
   return router;
 };

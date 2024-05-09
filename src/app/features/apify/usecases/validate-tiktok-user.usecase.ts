@@ -11,7 +11,6 @@ interface CreateValidationParams {
 export class validateTiktokUserUsecase {
   public async execute(data: CreateValidationParams): Promise<Return> {
     const result = await verifyTiktokUser(data.url);
-
     const cacheRepository = new CacheRepository();
 
     const user = new UserRepository();

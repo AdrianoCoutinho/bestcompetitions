@@ -1,3 +1,4 @@
+import { ClipEntity } from "../../../shared/database/entities/clip.entity";
 import { Return } from "../../../shared/util/return.contract";
 import { ClipRepository } from "../../clip/database/clip.repository";
 import { CompetitionRepository } from "../database/competition.repository";
@@ -12,12 +13,17 @@ export class GetCompetitionUsecase {
     const result = await repository.get(data.competitionId);
 
     const cliprepository = new ClipRepository();
-    const competitions = await cliprepository.listPerCompetition(
+    const ClipData = await cliprepository.listPerCompetition(
       data.competitionId
     );
+
     let numberOfCompetitions = 0;
-    if (competitions != null) {
-      numberOfCompetitions = competitions.length;
+    let numberOfViewsTotal = 0;
+    if (ClipData != null) {
+      numberOfCompetitions = ClipData.length;
+      numberOfViewsTotal = ClipData.reduce((acc: number, clip: ClipEntity) => {
+        return acc + clip.views;
+      }, 0);
     }
 
     return {
@@ -27,6 +33,7 @@ export class GetCompetitionUsecase {
       data: {
         result,
         numberOfCompetitions,
+        numberOfViewsTotal,
       },
     };
   }
