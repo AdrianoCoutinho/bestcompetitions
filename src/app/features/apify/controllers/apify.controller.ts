@@ -17,7 +17,7 @@ export class ApifyController {
 
       if (typeof req.headers["user"] === "string") {
         const authToken = req.headers["user"] as string;
-        const userObject = JSON.parse(authToken); // Converte a string JSON em um objeto JavaScript
+        const userObject = JSON.parse(authToken);
         const userId = userObject._id;
 
         const { username } = req.body;
@@ -52,7 +52,7 @@ export class ApifyController {
 
       if (typeof req.headers["user"] === "string") {
         const authToken = req.headers["user"] as string;
-        const userObject = JSON.parse(authToken); // Converte a string JSON em um objeto JavaScript
+        const userObject = JSON.parse(authToken);
         const userId = userObject._id;
 
         const usecase = new validateTiktokUserUsecase();

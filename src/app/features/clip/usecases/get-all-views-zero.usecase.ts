@@ -11,7 +11,7 @@ interface GetAllClipsParams {
   idCompetition: string;
 }
 
-export class GetAllIdsUsecase {
+export class GetAllViewsZeroUsecase {
   public async execute(data: GetAllClipsParams): Promise<Return> {
     const competitionRepository = new CompetitionRepository();
     const competition = await competitionRepository.get(data.idCompetition);
@@ -35,7 +35,11 @@ export class GetAllIdsUsecase {
       };
     }
 
-    const urls = clips.map((item) => {
+    const urlszero = clips.filter((item) => {
+      item.views === 0;
+    });
+
+    const urls = urlszero.map((item) => {
       return {
         url: item.url,
         id: item.id,

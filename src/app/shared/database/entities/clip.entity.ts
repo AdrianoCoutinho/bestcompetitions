@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { CompetitionEntity } from "./competition.entity";
 import { UserEntity } from "./user.entity";
@@ -21,6 +22,27 @@ export class ClipEntity {
 
   @Column({ default: 0 })
   views: number;
+
+  @Column()
+  videoDate: Date;
+
+  @Column()
+  diggCount: number;
+
+  @Column()
+  username: string;
+
+  @Column()
+  shareCount: number;
+
+  @Column()
+  avatarUrl: string;
+
+  @Column()
+  videoUrl: string;
+
+  @Column()
+  nickname: string;
 
   @Column({
     name: "id_user",
@@ -52,4 +74,9 @@ export class ClipEntity {
     name: "dthr_register",
   })
   dthrRegister: Date;
+
+  @UpdateDateColumn({
+    name: "last_update",
+  })
+  lastUpdate: Date;
 }

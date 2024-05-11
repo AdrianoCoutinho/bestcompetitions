@@ -1,4 +1,5 @@
 import { Clip } from "../../../models/clip.model";
+import { getTiktokVideo } from "../../../shared/apify";
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 import { UserRepository } from "../../user/database/user.repository";
@@ -34,9 +35,40 @@ export class CreateClipUsecase {
       };
     }
 
-    const clip = new Clip(data.url, user, competition);
+    const videoData = await getTiktokVideo(data.url);
+
+    const competitionHashtag = competition.hashtag;
+    const hashtags = videoData[0].hashtags;
+
+    const hashtagExists = hashtags.find((item: any) => {
+      return item.name === competitionHashtag;
+    });
+
+    if (!hashtagExists) {
+      return {
+        ok: false,
+        code: 404,
+        message: `Não foi encontrada a hastag. ${competitionHashtag}`,
+        data: hashtags,
+      };
+    }
+
+    const clip = new Clip(
+      data.url,
+      user,
+      competition,
+      videoData[0].createTimeISO,
+      videoData[0].authorMeta.name,
+      videoData[0].diggCount,
+      videoData[0].shareCount,
+      videoData[0].authorMeta.avatar,
+      videoData[0].submittedVideoUrl,
+      videoData[0].authorMeta.nickName,
+      videoData[0].playCount
+    );
 
     const repository = new ClipRepository();
+
     await repository.create(clip);
 
     return {

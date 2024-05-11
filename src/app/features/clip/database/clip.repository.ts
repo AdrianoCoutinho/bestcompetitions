@@ -13,6 +13,13 @@ export class ClipRepository {
       url: clip.url,
       user: clip.user,
       competition: clip.competition,
+      videoDate: clip.videoDate,
+      diggCount: clip.diggCount,
+      username: clip.username,
+      shareCount: clip.sharecount,
+      avatarUrl: clip.avatarUrl,
+      videoUrl: clip.videoUrl,
+      nickname: clip.nickname,
       views: clip.views,
     });
 
@@ -96,6 +103,11 @@ export class ClipRepository {
         data: null,
       };
     }
+
+    if (Number.isNaN(playcount)) {
+      playcount = -1;
+    }
+
     clip.views = playcount;
     await this.repository.save(clip);
 
@@ -113,6 +125,13 @@ export class ClipRepository {
       entity.url,
       user,
       competition,
+      entity.videoDate,
+      entity.username,
+      entity.diggCount,
+      entity.shareCount,
+      entity.avatarUrl,
+      entity.videoUrl,
+      entity.nickname,
       entity.views
     );
 
