@@ -45,6 +45,28 @@ export class CompetitionRepository {
     return CompetitionRepository.mapEntityToModel(result);
   }
 
+  public async addParticipant(id: string) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ["user"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    result.participants += 1;
+
+    await this.repository.save(result);
+    return result;
+  }
+
   public async list() {
     const result = await this.repository.find();
 
