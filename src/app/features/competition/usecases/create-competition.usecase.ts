@@ -32,7 +32,13 @@ export class CreateCompetitionUsecase {
       data.initialDate,
       data.finalDate,
       data.hashtag,
-      user
+      user,
+      "ninguém",
+      0,
+      data.tiktok,
+      data.instagram,
+      data.youtube,
+      true
     );
 
     const repository = new CompetitionRepository();

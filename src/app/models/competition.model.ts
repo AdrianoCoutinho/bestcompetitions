@@ -10,12 +10,12 @@ export class Competition {
     public finalDate: Date,
     public hashtag: string,
     public user: User,
-    public winner?: string,
-    public participants?: number,
-    public tiktok?: string,
-    public instagram?: string,
-    public youtube?: string,
-    public indActive?: boolean
+    public winner: string,
+    public participants: number,
+    public tiktok: string,
+    public instagram: string,
+    public youtube: string,
+    public indActive: boolean
   ) {
     this._id = createUuid();
   }
