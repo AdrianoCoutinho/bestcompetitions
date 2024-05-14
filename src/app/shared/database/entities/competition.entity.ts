@@ -36,22 +36,13 @@ export class CompetitionEntity {
   @Column({ default: 0 })
   participants: number;
 
-  @Column({
-    nullable: true,
-    unique: true,
-  })
+  @Column()
   tiktok: string;
 
-  @Column({
-    nullable: true,
-    unique: true,
-  })
+  @Column()
   instagram: string;
 
-  @Column({
-    nullable: true,
-    unique: true,
-  })
+  @Column()
   youtube: string;
 
   @Column({ default: true })
