@@ -11,5 +11,11 @@ export const registrationRoutes = () => {
     new RegistrationController().create
   );
 
+  router.get(
+    "/",
+    [checkLoginValidator],
+    new RegistrationController().verifyRegistration
+  );
+
   return router;
 };

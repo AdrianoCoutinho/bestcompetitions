@@ -12,6 +12,28 @@ interface CreateRegistrationParams {
 
 export class CreateRegistrationUsecase {
   public async execute(data: CreateRegistrationParams): Promise<Return> {
+    const cacheRepository = new CacheRepository();
+
+    let participantsCache = await cacheRepository.get(`participants`);
+
+    if (!participantsCache) {
+      await cacheRepository.set(`participants`, "[]");
+    }
+
+    let participantlist = JSON.parse(participantsCache);
+
+    let idExists = participantlist.find((item: string) => {
+      return item === data.idUser;
+    });
+
+    if (idExists) {
+      return {
+        ok: false,
+        code: 401,
+        message: "Você já está participando desta competição.",
+      };
+    }
+
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
 
@@ -52,13 +74,15 @@ export class CreateRegistrationUsecase {
 
     await competitionRepository.addParticipant(competition.id);
 
-    const cacheRepository = new CacheRepository();
+    participantlist.push(data.idUser);
+
+    await cacheRepository.set(`participants`, JSON.stringify(participantlist));
 
     return {
       ok: true,
       code: 201,
       message: "A inscrição foi criada com sucesso.",
-      data: registration,
+      data: "registration",
     };
   }
 }
