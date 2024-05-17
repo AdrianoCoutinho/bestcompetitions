@@ -84,16 +84,9 @@ export class ClipRepository {
   }
 
   public async UpdateView(id: string, playcount: number) {
-    console.log(typeof id);
-    console.log(typeof playcount);
-    console.log(id);
-    console.log(playcount);
-
     const clip = await this.repository.findOneBy({
       id,
     });
-
-    console.log(clip);
 
     if (clip === null) {
       return {

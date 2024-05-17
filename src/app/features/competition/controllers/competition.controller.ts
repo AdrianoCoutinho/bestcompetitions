@@ -3,6 +3,7 @@ import { ApiError } from "../../../shared/errors/api.error";
 import { CreateCompetitionUsecase } from "../usecases/create-competition.usecase";
 import { GetCompetitionUsecase } from "../usecases/get-competition.usecase";
 import { ListCompetitionsUsecase } from "../usecases/list-competition.usecase";
+import { SetEmphasisCompetition } from "../usecases/set-emphasis-competition";
 
 export class CompetitionController {
   public async create(req: Request, res: Response) {
@@ -55,6 +56,34 @@ export class CompetitionController {
   }
 
   public async getCompetition(req: Request, res: Response) {
+    try {
+      const { competitionId } = req.params;
+
+      const usecase = new GetCompetitionUsecase();
+
+      const result = await usecase.execute({ competitionId });
+
+      return res.status(result.code).send(result);
+    } catch (error: any) {
+      return ApiError.serverError(res, error);
+    }
+  }
+
+  public async setEmphasisCompetition(req: Request, res: Response) {
+    try {
+      const { competitionId } = req.params;
+
+      const usecase = new SetEmphasisCompetition();
+
+      const result = await usecase.execute({ competitionId });
+
+      return res.status(result.code).send(result);
+    } catch (error: any) {
+      return ApiError.serverError(res, error);
+    }
+  }
+
+  public async getEmphasisCompetition(req: Request, res: Response) {
     try {
       const { competitionId } = req.params;
 

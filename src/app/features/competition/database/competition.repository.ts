@@ -1,6 +1,7 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Competition } from "../../../models/competition.model";
 import { CompetitionEntity } from "../../../shared/database/entities/competition.entity";
+import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { UserRepository } from "../../user/database/user.repository";
 
 export class CompetitionRepository {
@@ -64,6 +65,52 @@ export class CompetitionRepository {
     result.participants += 1;
 
     await this.repository.save(result);
+    return result;
+  }
+
+  public async setEmphasisCompetition(id: string) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ["user"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    const cacheRepository = new CacheRepository();
+
+    await cacheRepository.set("emphasisCompetition", id);
+
+    return result;
+  }
+
+  public async getEmphasisCompetition(id: string) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ["user"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    const cacheRepository = new CacheRepository();
+
+    await cacheRepository.get("emphasisCompetition");
+
     return result;
   }
 
