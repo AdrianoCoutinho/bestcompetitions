@@ -16,6 +16,25 @@ export class RegistrationRepository {
     await this.repository.save(registationEntity);
   }
 
+  public async getByUserId(id: string) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.findOne({
+      where: {
+        idUser: id,
+      },
+      relations: ["user"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return RegistrationRepository.mapEntityToModel(result);
+  }
+
   public static mapEntityToModel(entity: RegistrationEntity): Registration {
     const registration = Registration.create(
       entity.id,

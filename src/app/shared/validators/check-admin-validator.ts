@@ -17,8 +17,6 @@ export const checkAdminValidator = (
       });
     }
 
-    console.log(usuario);
-
     const decodedUsuario = JSON.parse(usuario);
     if (decodedUsuario.Typeuser !== Typeuser.Admin) {
       return res.status(403).send({

@@ -1,14 +1,10 @@
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../database/competition.repository";
 
-interface GetCompetitionParams {
-  competitionId: string;
-}
-
 export class GetEmphasisCompetition {
-  public async execute(data: GetCompetitionParams): Promise<Return> {
+  public async execute(): Promise<Return> {
     const repository = new CompetitionRepository();
-    const result = await repository.getEmphasisCompetition(data.competitionId);
+    const result = await repository.getEmphasisCompetition();
 
     return {
       ok: true,

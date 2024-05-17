@@ -8,24 +8,24 @@ export const competitionRoutes = () => {
 
   router.post("/", [checkLoginValidator], new CompetitionController().create);
 
+  router.get("/", [checkLoginValidator], new CompetitionController().list);
+
+  router.get(
+    "/getemphasiscompetition",
+    [checkLoginValidator],
+    new CompetitionController().getEmphasisCompetition
+  );
+
   router.get(
     "/:competitionId",
     [checkLoginValidator],
     new CompetitionController().getCompetition
   );
 
-  router.get("/", [checkLoginValidator], new CompetitionController().list);
-
   router.post(
-    "/setEmphasisCompetition/:competitionId",
+    "/setemphasiscompetition/:competitionId",
     [checkLoginValidator, checkAdminValidator],
     new CompetitionController().setEmphasisCompetition
-  );
-
-  router.get(
-    "/setEmphasisCompetition/:competitionId",
-    [checkLoginValidator],
-    new CompetitionController().getEmphasisCompetition
   );
 
   return router;

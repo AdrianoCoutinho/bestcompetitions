@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { CreateCompetitionUsecase } from "../usecases/create-competition.usecase";
 import { GetCompetitionUsecase } from "../usecases/get-competition.usecase";
+import { GetEmphasisCompetition } from "../usecases/get-emphasis-competition";
 import { ListCompetitionsUsecase } from "../usecases/list-competition.usecase";
 import { SetEmphasisCompetition } from "../usecases/set-emphasis-competition";
 
@@ -85,11 +86,9 @@ export class CompetitionController {
 
   public async getEmphasisCompetition(req: Request, res: Response) {
     try {
-      const { competitionId } = req.params;
+      const usecase = new GetEmphasisCompetition();
 
-      const usecase = new GetCompetitionUsecase();
-
-      const result = await usecase.execute({ competitionId });
+      const result = await usecase.execute();
 
       return res.status(result.code).send(result);
     } catch (error: any) {

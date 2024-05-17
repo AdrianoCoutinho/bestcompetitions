@@ -5,7 +5,11 @@ import { RegistrationController } from "../controllers/registration.controller";
 export const registrationRoutes = () => {
   const router = Router();
 
-  router.post("/", [checkLoginValidator], new RegistrationController().create);
+  router.post(
+    "/:idCompetition",
+    [checkLoginValidator],
+    new RegistrationController().create
+  );
 
   return router;
 };

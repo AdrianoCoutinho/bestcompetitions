@@ -1,12 +1,13 @@
 import { Registration } from "../../../models/registrations.model";
+import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 import { UserRepository } from "../../user/database/user.repository";
 import { RegistrationRepository } from "../database/registration.database";
 
 interface CreateRegistrationParams {
-  idUser: string;
   idCompetition: string;
+  idUser: string;
 }
 
 export class CreateRegistrationUsecase {
@@ -33,12 +34,25 @@ export class CreateRegistrationUsecase {
       };
     }
 
+    const repository = new RegistrationRepository();
+
+    const regisExists = await repository.getByUserId(data.idUser);
+
+    if (regisExists) {
+      return {
+        ok: false,
+        code: 401,
+        message: "Você já está inscrito nessa competição",
+      };
+    }
+
     const registration = new Registration(user.id, competition.id);
 
-    const repository = new RegistrationRepository();
     await repository.create(registration);
 
     await competitionRepository.addParticipant(competition.id);
+
+    const cacheRepository = new CacheRepository();
 
     return {
       ok: true,

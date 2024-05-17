@@ -91,25 +91,10 @@ export class CompetitionRepository {
     return result;
   }
 
-  public async getEmphasisCompetition(id: string) {
-    if (!id) {
-      return null;
-    }
-
-    const result = await this.repository.findOne({
-      where: {
-        id,
-      },
-      relations: ["user"],
-    });
-
-    if (result === null) {
-      return null;
-    }
-
+  public async getEmphasisCompetition() {
     const cacheRepository = new CacheRepository();
 
-    await cacheRepository.get("emphasisCompetition");
+    const result = await cacheRepository.get("emphasisCompetition");
 
     return result;
   }
