@@ -1,6 +1,7 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { User } from "../../../models/user.model";
 import { UserEntity } from "../../../shared/database/entities/user.entity";
+import { ClipRepository } from "../../clip/database/clip.repository";
 
 export class UserRepository {
   private repository = TypeormConnection.connection.getRepository(UserEntity);
@@ -31,6 +32,15 @@ export class UserRepository {
     }
 
     return UserRepository.mapEntityToModel(result);
+  }
+
+  public async getClipsTotalValue(idUser: string): Promise<number | null> {
+    const cliprepository = new ClipRepository();
+    const total = await cliprepository.listPerUser(idUser);
+    if (total === null) {
+      return null;
+    }
+    return total.length;
   }
 
   public async create(user: User) {

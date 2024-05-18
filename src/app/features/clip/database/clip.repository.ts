@@ -45,6 +45,25 @@ export class ClipRepository {
     return ClipRepository.mapEntityToModel(result);
   }
 
+  public async listPerUser(idUser: string) {
+    if (!idUser) {
+      return null;
+    }
+
+    const result = await this.repository.find({
+      where: {
+        idUser: idUser,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
   public async listPerCompetition(idCompetition: string) {
     if (!idCompetition) {
       return null;

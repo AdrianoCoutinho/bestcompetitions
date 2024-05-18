@@ -13,6 +13,9 @@ export class GetUserUsecase {
   public async execute(data: IGetUser): Promise<Return> {
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
+    const clipsTotalValue = await userRepository.getClipsTotalValue(
+      data.idUser
+    );
 
     if (!user) {
       return {
@@ -26,7 +29,10 @@ export class GetUserUsecase {
       ok: true,
       code: 200,
       message: "Usuário listado com sucesso.",
-      data: user,
+      data: {
+        user: user,
+        clips: clipsTotalValue,
+      },
     };
   }
 }
