@@ -61,7 +61,7 @@ export class UserRepository {
       return {
         ok: false,
         code: 404,
-        message: "Usuário não encontrada",
+        message: "Usuário não encontrado",
         data: null,
       };
     }
@@ -79,8 +79,6 @@ export class UserRepository {
     if (!result) {
       return null;
     }
-
-    console.log(result.tiktok);
 
     return result.tiktok;
   }
