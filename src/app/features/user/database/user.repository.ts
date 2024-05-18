@@ -71,6 +71,20 @@ export class UserRepository {
     return user.tiktok;
   }
 
+  public async VerifyTiktok(id: string): Promise<string | null> {
+    const result = await this.repository.findOneBy({
+      id,
+    });
+
+    if (!result) {
+      return null;
+    }
+
+    console.log(result.tiktok);
+
+    return result.tiktok;
+  }
+
   public static mapEntityToModel(entity: UserEntity): User {
     return User.create(
       entity.id,

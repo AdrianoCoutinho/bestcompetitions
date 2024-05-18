@@ -5,10 +5,10 @@ import { ApifyController } from "../controllers/apify.controller";
 export const apifyRoutes = () => {
   const router = Router();
 
-  router.post(
-    "/validateTiktok",
+  router.get(
+    "/getcodetiktok",
     [checkLoginValidator],
-    new ApifyController().TiktokUser
+    new ApifyController().GetCodeTiktok
   );
 
   router.post(

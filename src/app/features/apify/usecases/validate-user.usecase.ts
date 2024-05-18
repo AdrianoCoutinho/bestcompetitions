@@ -6,7 +6,7 @@ interface CreateValidationParams {
   userId: string;
 }
 
-export class ValidateUserUsecase {
+export class GetCodeTiktokUsecase {
   public async execute(data: CreateValidationParams): Promise<Return> {
     const cacheRepository = new CacheRepository();
 
@@ -18,12 +18,12 @@ export class ValidateUserUsecase {
     };
 
     await cacheRepository.set(`hashtagvalidation${data.userId}`, truncatedUuid);
-    setTimeout(deleteCacheKey, 300000);
+    setTimeout(deleteCacheKey, 600000);
 
     return {
       ok: true,
       code: 201,
-      message: `Solicitação criada! Você tem 1 minuto para criar um video com a hashtag ${truncatedUuid}`,
+      message: `Solicitação criada! Você tem 10 minutos para criar um video com a hashtag ${truncatedUuid}`,
       data: truncatedUuid,
     };
   }

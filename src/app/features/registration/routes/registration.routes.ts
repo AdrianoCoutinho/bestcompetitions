@@ -17,5 +17,11 @@ export const registrationRoutes = () => {
     new RegistrationController().verifyRegistration
   );
 
+  router.get(
+    "/tiktok",
+    [checkLoginValidator],
+    new RegistrationController().verifyTiktokUser
+  );
+
   return router;
 };

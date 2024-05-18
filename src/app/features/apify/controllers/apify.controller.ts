@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { validateTiktokUserUsecase } from "../usecases/validate-tiktok-user.usecase";
-import { ValidateUserUsecase } from "../usecases/validate-user.usecase";
+import { GetCodeTiktokUsecase } from "../usecases/validate-user.usecase";
 
 export class ApifyController {
-  public async TiktokUser(req: Request, res: Response) {
+  public async GetCodeTiktok(req: Request, res: Response) {
     try {
       const authToken = req.headers["user"];
 
@@ -19,9 +19,7 @@ export class ApifyController {
         const authToken = req.headers["user"] as string;
         const userObject = JSON.parse(authToken);
         const userId = userObject._id;
-
-        const { username } = req.body;
-        const usecase = new ValidateUserUsecase();
+        const usecase = new GetCodeTiktokUsecase();
         const result = await usecase.execute({
           userId,
         });
