@@ -15,9 +15,7 @@ export class validateTiktokUserUsecase {
 
     const user = new UserRepository();
 
-    const hashtagID = await cacheRepository.get(
-      `hashtagvalidation${data.userId}`
-    );
+    const hashtagID = sessionStorage.getItem(`hashtagvalidation${data.userId}`);
 
     const hashtag = result[0].hashtags.find((item: any) => {
       return item.name === hashtagID;
@@ -37,13 +35,6 @@ export class validateTiktokUserUsecase {
       data.userId,
       result[0].authorMeta.name
     );
-
-    if (checkedUsername === result[0].authorMeta.name) {
-      await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
-      await new CacheRepository().delete(
-        `hashtagvalidationUsername${data.userId}`
-      );
-    }
 
     let tiktokUserCache = await cacheRepository.get(`tiktokAccounts`);
 

@@ -13,12 +13,7 @@ export class GetCodeTiktokUsecase {
     const originalUuid = uuidv4();
     const truncatedUuid = originalUuid.slice(0, 8);
 
-    const deleteCacheKey = async () => {
-      await new CacheRepository().delete(`hashtagvalidation${data.userId}`);
-    };
-
-    await cacheRepository.set(`hashtagvalidation${data.userId}`, truncatedUuid);
-    setTimeout(deleteCacheKey, 600000);
+    sessionStorage.setItem(`hashtagvalidation${data.userId}`, truncatedUuid);
 
     return {
       ok: true,
