@@ -45,6 +45,17 @@ export class validateTiktokUserUsecase {
       );
     }
 
+    let tiktokUserCache = await cacheRepository.get(`tiktokAccounts`);
+
+    let tiktokUserCacheList = JSON.parse(tiktokUserCache);
+
+    tiktokUserCacheList.push(data.userId);
+
+    await cacheRepository.set(
+      `tiktokAccounts`,
+      JSON.stringify(tiktokUserCacheList)
+    );
+
     return {
       ok: true,
       code: 201,

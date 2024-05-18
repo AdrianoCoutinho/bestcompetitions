@@ -6,6 +6,7 @@ import { competitionRoutes } from "../../app/features/competition/routes/competi
 import { loginRoutes } from "../../app/features/login/routes/login.routes";
 import { registerRoutes } from "../../app/features/register/routes/register.routes";
 import { registrationRoutes } from "../../app/features/registration/routes/registration.routes";
+import { userRoutes } from "../../app/features/user/routes/user.routes";
 
 export const createApp = () => {
   const app = express();
@@ -24,6 +25,8 @@ export const createApp = () => {
   apifyRoutes;
 
   app.use("/validations", apifyRoutes());
+
+  app.use("/user", userRoutes());
 
   return app;
 };
