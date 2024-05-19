@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
-import { validateTiktokUserUsecase } from "../usecases/validate-tiktok-user.usecase";
-import { GetCodeTiktokUsecase } from "../usecases/validate-user.usecase";
+import { CreateValidationUserTiktokUsecase } from "../usecases/create-validation-user-tiktok.usecase";
+import { GetValidationUserTiktokUsecase } from "../usecases/get-validation-user-tiktok.usecase";
 
 export class ApifyController {
   public async GetCodeTiktok(req: Request, res: Response) {
@@ -19,7 +19,7 @@ export class ApifyController {
         const authToken = req.headers["user"] as string;
         const userObject = JSON.parse(authToken);
         const userId = userObject._id;
-        const usecase = new GetCodeTiktokUsecase();
+        const usecase = new CreateValidationUserTiktokUsecase();
         const result = await usecase.execute({
           userId,
         });
@@ -53,7 +53,7 @@ export class ApifyController {
         const userObject = JSON.parse(authToken);
         const userId = userObject._id;
 
-        const usecase = new validateTiktokUserUsecase();
+        const usecase = new GetValidationUserTiktokUsecase();
         const result = await usecase.execute({
           userId,
           url,

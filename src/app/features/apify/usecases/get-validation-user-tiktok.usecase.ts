@@ -8,17 +8,19 @@ interface CreateValidationParams {
   url: string;
 }
 
-export class validateTiktokUserUsecase {
+export class GetValidationUserTiktokUsecase {
   public async execute(data: CreateValidationParams): Promise<Return> {
     const result = await verifyTiktokUser(data.url);
     const cacheRepository = new CacheRepository();
 
     const user = new UserRepository();
 
-    const hashtagID = sessionStorage.getItem(`hashtagvalidation${data.userId}`);
+    const hashtaExists = await cacheRepository.get(
+      `hashtagvalidation${data.userId}`
+    );
 
     const hashtag = result[0].hashtags.find((item: any) => {
-      return item.name === hashtagID;
+      return item.name === hashtaExists;
     });
 
     if (!hashtag) {
@@ -26,15 +28,12 @@ export class validateTiktokUserUsecase {
         ok: false,
         code: 404,
         message: `A hashtag não foi encontrada!`,
-        data: hashtagID,
+        data: hashtaExists,
         hashtags: result[0].hashtags,
       };
     }
 
-    const checkedUsername = await user.changeUsernameTiktok(
-      data.userId,
-      result[0].authorMeta.name
-    );
+    await user.changeUsernameTiktok(data.userId, result[0].authorMeta.name);
 
     let tiktokUserCache = await cacheRepository.get(`tiktokAccounts`);
 
