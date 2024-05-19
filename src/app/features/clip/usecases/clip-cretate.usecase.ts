@@ -48,7 +48,7 @@ export class CreateClipUsecase {
       return {
         ok: false,
         code: 404,
-        message: `Não foi encontrada a hastag. ${competitionHashtag}`,
+        message: `Não foi encontrada a hastag "${competitionHashtag}"`,
         data: hashtags,
       };
     }
