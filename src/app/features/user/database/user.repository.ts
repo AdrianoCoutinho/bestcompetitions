@@ -43,6 +43,15 @@ export class UserRepository {
     return total.length;
   }
 
+  public async getViewsOfClipsTotalValue(idUser: string): Promise<any | null> {
+    const cliprepository = new ClipRepository();
+    const total = await cliprepository.listPerUser(idUser);
+    if (total === null) {
+      return null;
+    }
+    return total;
+  }
+
   public async create(user: User) {
     const userEntity = this.repository.create({
       id: user.id,

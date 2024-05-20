@@ -11,11 +11,9 @@ interface IGetUser {
 
 export class GetUserUsecase {
   public async execute(data: IGetUser): Promise<Return> {
+    let totalOfViewsValue = 0;
     const userRepository = new UserRepository();
     const user = await userRepository.get(data.idUser);
-    const clipsTotalValue = await userRepository.getClipsTotalValue(
-      data.idUser
-    );
 
     if (!user) {
       return {
@@ -25,13 +23,28 @@ export class GetUserUsecase {
       };
     }
 
+    const clipsTotalValue = await userRepository.getClipsTotalValue(
+      data.idUser
+    );
+
+    const viewsOfTotalClips = await userRepository.getViewsOfClipsTotalValue(
+      data.idUser
+    );
+
+    if (viewsOfTotalClips.length > 0) {
+      totalOfViewsValue = viewsOfTotalClips.reduce((acc: number, clip: any) => {
+        return acc + clip.views;
+      }, 0);
+    }
+
     return {
       ok: true,
       code: 200,
       message: "Usuário listado com sucesso.",
       data: {
         user: user,
-        clips: clipsTotalValue,
+        totalClipsValue: clipsTotalValue,
+        totalViewsOfClips: totalOfViewsValue,
       },
     };
   }
