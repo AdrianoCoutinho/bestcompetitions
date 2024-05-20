@@ -40,6 +40,14 @@ export class CreateClipUsecase {
     const competitionHashtag = competition.hashtag;
     const hashtags = videoData[0].hashtags;
 
+    if (!hashtags) {
+      return {
+        ok: false,
+        code: 400,
+        message: `Video não disponível, verifique o video novamente.`,
+      };
+    }
+
     const hashtagExists = hashtags.find((item: any) => {
       return item.name === competitionHashtag;
     });
