@@ -3,7 +3,7 @@ import { CacheRepository } from "../../../shared/database/repositories/cache.rep
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 import { UserRepository } from "../../user/database/user.repository";
-import { RegistrationRepository } from "../database/registration.database";
+import { RegistrationRepository } from "../database/registration.repository";
 
 interface CreateRegistrationParams {
   idCompetition: string;

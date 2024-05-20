@@ -2,6 +2,7 @@ import { TypeormConnection } from "../../../../main/database/typeorm.connection"
 import { Competition } from "../../../models/competition.model";
 import { CompetitionEntity } from "../../../shared/database/entities/competition.entity";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
+import { RegistrationRepository } from "../../registration/database/registration.repository";
 import { UserRepository } from "../../user/database/user.repository";
 
 export class CompetitionRepository {
@@ -52,9 +53,7 @@ export class CompetitionRepository {
     }
 
     const result = await this.repository.findOne({
-      where: {
-        id,
-      },
+      where: { id },
       relations: ["user"],
     });
 
@@ -62,9 +61,14 @@ export class CompetitionRepository {
       return null;
     }
 
-    result.participants += 1;
+    const registrationRepository = new RegistrationRepository();
+    const valueOfParticipants =
+      await registrationRepository.listByCompetitionId(id);
 
-    await this.repository.save(result);
+    if (valueOfParticipants) {
+      result.participants = valueOfParticipants.length;
+      await this.repository.save(result);
+    }
     return result;
   }
 

@@ -16,6 +16,25 @@ export class RegistrationRepository {
     await this.repository.save(registationEntity);
   }
 
+  public async listByCompetitionId(id: string) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.find({
+      where: {
+        idCompetition: id,
+      },
+      relations: ["competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
   public async getByUserId(id: string) {
     if (!id) {
       return null;
