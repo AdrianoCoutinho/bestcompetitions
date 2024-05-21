@@ -1,0 +1,81 @@
+import { DayliWin } from "../../../models/dailyWin.model";
+import { Return } from "../../../shared/util/return.contract";
+import { ClipRepository } from "../../clip/database/clip.repository";
+import { CompetitionRepository } from "../../competition/database/competition.repository";
+import { UserRepository } from "../../user/database/user.repository";
+import { DailyWinRepository } from "../database/dailywin.repository";
+
+export class CreateDailyWinUsecase {
+  public async execute(idCompetition: string, date: string): Promise<Return> {
+    const competitionRepository = new CompetitionRepository();
+    const competition = await competitionRepository.get(idCompetition);
+
+    if (!competition) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Competição não encontrada.",
+      };
+    }
+
+    const cliprepository = new ClipRepository();
+    const listdayliwin = await cliprepository.listDailyWin(idCompetition, date);
+
+    if (listdayliwin === null) {
+      return {
+        ok: false,
+        code: 400,
+        message: "Não há videos.",
+        data: listdayliwin,
+      };
+    }
+
+    for (let i = 0; i < listdayliwin.length; i++) {
+      const {
+        url,
+        user,
+        videoDate,
+        username,
+        diggCount,
+        shareCount,
+        avatarUrl,
+        videoUrl,
+        nickname,
+        views,
+      } = listdayliwin[i];
+      const userRepository = new UserRepository();
+      const User = await userRepository.get(user.id);
+      if (!User) {
+        return {
+          ok: false,
+          code: 404,
+          message: "Usuário não encontrado.",
+        };
+      }
+      const clip = new DayliWin(
+        url,
+        User,
+        competition,
+        videoDate,
+        new Date(new Date(videoDate).setHours(0, 0, 0, 0)),
+        username,
+        diggCount,
+        shareCount,
+        avatarUrl,
+        videoUrl,
+        nickname,
+        views
+      );
+      const repository = new DailyWinRepository();
+
+      await repository.create(clip);
+    }
+
+    return {
+      ok: true,
+      code: 201,
+      message: "Os 10 primeiros clipadores foram listados com sucesso.",
+      data: listdayliwin,
+    };
+  }
+}

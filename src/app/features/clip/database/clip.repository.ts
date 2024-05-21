@@ -1,3 +1,4 @@
+import { Between } from "typeorm";
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Clip } from "../../../models/clip.model";
 import { ClipEntity } from "../../../shared/database/entities/clip.entity";
@@ -83,6 +84,49 @@ export class ClipRepository {
     return result;
   }
 
+  public async listDailyWin(idCompetition: string, date: string) {
+    if (!idCompetition) {
+      return null;
+    }
+
+    const initialDate = new Date(date);
+    const startDate = new Date(initialDate);
+    startDate.setDate(initialDate.getDate() + 1);
+    startDate.setHours(0, 0, 0, 0);
+
+    const finalDate = new Date(date);
+    const endDate = new Date(finalDate);
+    endDate.setDate(initialDate.getDate() + 1);
+    endDate.setHours(23, 59, 59, 999);
+
+    const toLocalISOString = (date: any) => {
+      const tzOffset = date.getTimezoneOffset() * 60000; // offset in milliseconds
+      const localISOTime = new Date(date - tzOffset).toISOString().slice(0, -1);
+      return localISOTime;
+    };
+
+    console.log("Início do dia:", toLocalISOString(startDate));
+    console.log("Fim do dia:", toLocalISOString(endDate));
+
+    const result = await this.repository.find({
+      where: {
+        idCompetition: idCompetition,
+        videoDate: Between(startDate, endDate),
+      },
+      relations: ["user", "competition"],
+      order: {
+        views: "DESC",
+      },
+      take: 10,
+    });
+
+    if (result.length === 0) {
+      return null;
+    }
+
+    return result;
+  }
+
   public async getViews(idCompetition: string) {
     if (!idCompetition) {
       return null;
@@ -102,28 +146,31 @@ export class ClipRepository {
     return result;
   }
 
-  public async UpdateView(id: string, playcount: number) {
-    const clip = await this.repository.findOneBy({
-      id,
+  public async UpdateView(id: string, data: any) {
+    if (!id) {
+      return null;
+    }
+
+    const result = await this.repository.findOne({
+      where: { id },
     });
 
-    if (clip === null) {
-      return {
-        ok: false,
-        code: 404,
-        message: "Clip não encontrado",
-        data: null,
-      };
+    if (result === null) {
+      return null;
     }
 
-    if (Number.isNaN(playcount)) {
-      playcount = -1;
+    if (Number.isNaN(data.playcount)) {
+      data.playcount = -1;
     }
 
-    clip.views = playcount;
-    await this.repository.save(clip);
+    result.views = data.playCount;
 
-    return clip.views;
+    result.diggCount = data.diggCount;
+
+    result.shareCount = data.shareCount;
+
+    await this.repository.save(result);
+    return result;
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {

@@ -42,15 +42,18 @@ export class GetAllViewsUsecase {
       };
     });
 
-    const results = [""];
+    const results = [];
 
     for (let i = 0; i < urls.length; i++) {
       const { url, id } = urls[i];
-
       try {
         const result = await getView(url);
-        results.push(result);
-        cliprepository.UpdateView(id, Number(result[0].playCount));
+        results.push(...result);
+        await cliprepository.UpdateView(id, {
+          playCount: results[i].playCount,
+          diggCount: results[i].diggCount,
+          shareCount: results[i].shareCount,
+        });
       } catch (error) {
         console.error(`Erro na consulta ${i + 1}:`, error);
       }
@@ -58,7 +61,7 @@ export class GetAllViewsUsecase {
 
     return {
       ok: true,
-      code: 201,
+      code: 200,
       message: "Os clips foram analisados com sucesso.",
       data: results,
     };

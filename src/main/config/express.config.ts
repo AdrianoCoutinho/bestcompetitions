@@ -3,6 +3,7 @@ import express from "express";
 import { apifyRoutes } from "../../app/features/apify/routes/apify.routes";
 import { clipRoutes } from "../../app/features/clip/routes/clip.routes";
 import { competitionRoutes } from "../../app/features/competition/routes/competition.routes";
+import { dailywinRoutes } from "../../app/features/dailywin/routes/dailywin.routes";
 import { loginRoutes } from "../../app/features/login/routes/login.routes";
 import { registerRoutes } from "../../app/features/register/routes/register.routes";
 import { registrationRoutes } from "../../app/features/registration/routes/registration.routes";
@@ -13,20 +14,21 @@ export const createApp = () => {
   app.use(express.json());
   app.use(cors());
 
+  app.use("/register", registerRoutes());
+
   app.use("/auth", loginRoutes());
 
-  app.use("/register", registerRoutes());
+  app.use("/user", userRoutes());
 
   app.use("/competition", competitionRoutes());
 
-  app.use("/clip", clipRoutes());
-
   app.use("/registration", registrationRoutes());
-  apifyRoutes;
+
+  app.use("/clip", clipRoutes());
 
   app.use("/validations", apifyRoutes());
 
-  app.use("/user", userRoutes());
+  app.use("/dailywin", dailywinRoutes());
 
   return app;
 };
