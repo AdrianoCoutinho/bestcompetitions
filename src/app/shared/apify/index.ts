@@ -72,7 +72,19 @@ export const getView = async (url: string): Promise<any> => {
       shouldDownloadVideos: false,
     };
     const result = await axios.post("", data);
-    return result.data;
+    if (result.data[0].error) {
+      return {
+        ok: false,
+        message: "Video não encontrado!",
+        data: [{ diggCount: -1, shareCount: -1, playCount: -1 }],
+      };
+    } else {
+      return {
+        ok: true,
+        message: "Video carregado com sucesso!",
+        data: result.data,
+      };
+    }
   } catch (error: any) {
     if (error.request?.response) {
       const result = error.request.response;

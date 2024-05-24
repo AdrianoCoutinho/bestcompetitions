@@ -48,7 +48,8 @@ export class GetAllViewsUsecase {
       const { url, id } = urls[i];
       try {
         const result = await getView(url);
-        results.push(...result);
+        console.log(result.data);
+        results.push(...result.data);
         await cliprepository.UpdateView(id, {
           playCount: results[i].playCount,
           diggCount: results[i].diggCount,
