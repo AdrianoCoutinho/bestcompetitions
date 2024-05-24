@@ -1,6 +1,6 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { DailyWin } from "../../../models/dailyWin.model";
-import { DailyWinEntity } from "../../../shared/database/entities/dialyWin.entity";
+import { DailyWinEntity } from "../../../shared/database/entities/dailyWin.entity";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 
 export class DailyWinRepository {
