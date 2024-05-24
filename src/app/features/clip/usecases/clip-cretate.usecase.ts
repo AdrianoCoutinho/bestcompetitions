@@ -37,6 +37,14 @@ export class CreateClipUsecase {
 
     const videoData = await getTiktokVideo(data.url);
 
+    if (!videoData.ok) {
+      return {
+        ok: false,
+        code: 400,
+        message: `Url invalida, verifique-a e tente novamente.`,
+      };
+    }
+
     const competitionHashtag = competition.hashtag;
     const hashtags = videoData[0].hashtags;
 

@@ -2,7 +2,6 @@ import { DayliWin } from "../../../models/dailyWin.model";
 import { Return } from "../../../shared/util/return.contract";
 import { ClipRepository } from "../../clip/database/clip.repository";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
-import { UserRepository } from "../../user/database/user.repository";
 import { DailyWinRepository } from "../database/dailywin.repository";
 
 export class CreateDailyWinUsecase {
@@ -29,47 +28,15 @@ export class CreateDailyWinUsecase {
         data: listdayliwin,
       };
     }
-
-    for (let i = 0; i < listdayliwin.length; i++) {
-      const {
-        url,
-        user,
-        videoDate,
-        username,
-        diggCount,
-        shareCount,
-        avatarUrl,
-        videoUrl,
-        nickname,
-        views,
-      } = listdayliwin[i];
-      const userRepository = new UserRepository();
-      const User = await userRepository.get(user.id);
-      if (!User) {
-        return {
-          ok: false,
-          code: 404,
-          message: "Usuário não encontrado.",
-        };
-      }
-      const clip = new DayliWin(
-        url,
-        User,
-        competition,
-        videoDate,
-        new Date(new Date(videoDate).setHours(0, 0, 0, 0)),
-        username,
-        diggCount,
-        shareCount,
-        avatarUrl,
-        videoUrl,
-        nickname,
-        views
-      );
-      const repository = new DailyWinRepository();
-
-      await repository.create(clip);
-    }
+    const videoDate = new Date(date);
+    videoDate.setHours(+33, 0, 0, 0);
+    const dayliwin = new DayliWin(
+      new Date(videoDate),
+      listdayliwin,
+      competition
+    );
+    const repository = new DailyWinRepository();
+    await repository.create(dayliwin);
 
     return {
       ok: true,

@@ -9,12 +9,14 @@ export class ClipRepository {
   private repository = TypeormConnection.connection.getRepository(ClipEntity);
 
   public async create(clip: Clip) {
+    const videoDate = new Date(clip.videoDate);
+    videoDate.setHours(12, 0, 0, 0);
     const clipEntity = this.repository.create({
       id: clip.id,
       url: clip.url,
       user: clip.user,
       competition: clip.competition,
-      videoDate: clip.videoDate,
+      videoDate: videoDate,
       diggCount: clip.diggCount,
       username: clip.username,
       shareCount: clip.sharecount,
@@ -89,31 +91,17 @@ export class ClipRepository {
       return null;
     }
 
-    const initialDate = new Date(date);
-    const startDate = new Date(initialDate);
-    startDate.setDate(initialDate.getDate() + 1);
-    startDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(date);
+    const endDate = new Date(`${date}T23:59:59.999Z`);
 
-    const finalDate = new Date(date);
-    const endDate = new Date(finalDate);
-    endDate.setDate(initialDate.getDate() + 1);
-    endDate.setHours(23, 59, 59, 999);
-
-    const toLocalISOString = (date: any) => {
-      const tzOffset = date.getTimezoneOffset() * 60000; // offset in milliseconds
-      const localISOTime = new Date(date - tzOffset).toISOString().slice(0, -1);
-      return localISOTime;
-    };
-
-    console.log("Início do dia:", toLocalISOString(startDate));
-    console.log("Fim do dia:", toLocalISOString(endDate));
+    console.log(startDate);
+    console.log(endDate);
 
     const result = await this.repository.find({
       where: {
         idCompetition: idCompetition,
         videoDate: Between(startDate, endDate),
       },
-      relations: ["user", "competition"],
       order: {
         views: "DESC",
       },
