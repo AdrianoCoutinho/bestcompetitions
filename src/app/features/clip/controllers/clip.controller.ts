@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { CreateClipUsecase } from "../usecases/clip-cretate.usecase";
-import { GetAllViewsZeroUsecase } from "../usecases/get-all-views-zero.usecase";
+import { GetAllViewsDailyUsecase } from "../usecases/get-all-views-daily.usecase";
 import { GetAllViewsUsecase } from "../usecases/get-all-views.usecase";
 
 export class ClipController {
@@ -54,12 +54,12 @@ export class ClipController {
     }
   }
 
-  public async getAllIdsZero(req: Request, res: Response) {
+  public async getAllIdsDaily(req: Request, res: Response) {
     try {
-      const { idCompetition } = req.body;
+      const { idCompetition, date } = req.body;
 
-      const usecase = new GetAllViewsZeroUsecase();
-      const result = await usecase.execute({ idCompetition });
+      const usecase = new GetAllViewsDailyUsecase();
+      const result = await usecase.execute({ idCompetition, date });
 
       return res.status(result.code).send(result);
     } catch (error: any) {

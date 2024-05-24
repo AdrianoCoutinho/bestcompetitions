@@ -1,5 +1,5 @@
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
-import { DayliWin } from "../../../models/dailyWin.model";
+import { DailyWin } from "../../../models/dailyWin.model";
 import { DailyWinEntity } from "../../../shared/database/entities/dialyWin.entity";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 
@@ -7,7 +7,7 @@ export class DailyWinRepository {
   private repository =
     TypeormConnection.connection.getRepository(DailyWinEntity);
 
-  public async create(clip: DayliWin) {
+  public async create(clip: DailyWin) {
     const clipEntity = this.repository.create({
       id: clip.id,
       winDate: clip.winDate,
@@ -57,12 +57,12 @@ export class DailyWinRepository {
     return result;
   }
 
-  public static mapEntityToModel(entity: DailyWinEntity): DayliWin {
+  public static mapEntityToModel(entity: DailyWinEntity): DailyWin {
     const competition = CompetitionRepository.mapEntityToModel(
       entity.competition
     );
 
-    const clip = DayliWin.create(
+    const clip = DailyWin.create(
       entity.id,
       entity.winDate,
       entity.data,

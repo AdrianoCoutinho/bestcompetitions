@@ -1,4 +1,4 @@
-import { DayliWin } from "../../../models/dailyWin.model";
+import { DailyWin } from "../../../models/dailyWin.model";
 import { Return } from "../../../shared/util/return.contract";
 import { ClipRepository } from "../../clip/database/clip.repository";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
@@ -18,31 +18,31 @@ export class CreateDailyWinUsecase {
     }
 
     const cliprepository = new ClipRepository();
-    const listdayliwin = await cliprepository.listDailyWin(idCompetition, date);
+    const listdailywin = await cliprepository.listDailyWin(idCompetition, date);
 
-    if (listdayliwin === null) {
+    if (listdailywin === null) {
       return {
         ok: false,
         code: 400,
         message: "Não há videos.",
-        data: listdayliwin,
+        data: listdailywin,
       };
     }
     const videoDate = new Date(date);
     videoDate.setHours(+33, 0, 0, 0);
-    const dayliwin = new DayliWin(
+    const dailywin = new DailyWin(
       new Date(videoDate),
-      listdayliwin,
+      listdailywin,
       competition
     );
     const repository = new DailyWinRepository();
-    await repository.create(dayliwin);
+    await repository.create(dailywin);
 
     return {
       ok: true,
       code: 201,
       message: "Os 10 primeiros clipadores foram listados com sucesso.",
-      data: listdayliwin,
+      data: listdailywin,
     };
   }
 }

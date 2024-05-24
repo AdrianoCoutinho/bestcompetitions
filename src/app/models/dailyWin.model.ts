@@ -1,7 +1,7 @@
 import { v4 as createUuid } from "uuid";
 import { Competition } from "./competition.model";
 
-export class DayliWin {
+export class DailyWin {
   private _id: string;
 
   constructor(
@@ -18,7 +18,7 @@ export class DayliWin {
     data: object,
     competition: Competition
   ) {
-    const clip = new DayliWin(winDate, data, competition);
+    const clip = new DailyWin(winDate, data, competition);
     clip._id = id;
     return clip;
   }

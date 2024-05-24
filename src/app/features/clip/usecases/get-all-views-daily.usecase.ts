@@ -9,9 +9,10 @@ axios.defaults.baseURL = apifyEnv.secret;
 
 interface GetAllClipsParams {
   idCompetition: string;
+  date: string;
 }
 
-export class GetAllViewsZeroUsecase {
+export class GetAllViewsDailyUsecase {
   public async execute(data: GetAllClipsParams): Promise<Return> {
     const competitionRepository = new CompetitionRepository();
     const competition = await competitionRepository.get(data.idCompetition);
@@ -25,7 +26,10 @@ export class GetAllViewsZeroUsecase {
     }
 
     const cliprepository = new ClipRepository();
-    const clips = await cliprepository.listPerCompetition(data.idCompetition);
+    const clips = await cliprepository.listDailyWin(
+      data.idCompetition,
+      data.date
+    );
 
     if (!clips) {
       return {
@@ -35,26 +39,25 @@ export class GetAllViewsZeroUsecase {
       };
     }
 
-    const urlszero = clips.filter((item) => {
-      item.views === 0;
-    });
-
-    const urls = urlszero.map((item) => {
+    const urls = clips.map((item) => {
       return {
         url: item.url,
         id: item.id,
       };
     });
 
-    const results = [""];
+    const results = [];
 
     for (let i = 0; i < urls.length; i++) {
       const { url, id } = urls[i];
-
       try {
         const result = await getView(url);
-        results.push(result);
-        cliprepository.UpdateView(id, Number(result[0].playCount));
+        results.push(...result.data);
+        await cliprepository.UpdateView(id, {
+          playCount: results[i].playCount,
+          diggCount: results[i].diggCount,
+          shareCount: results[i].shareCount,
+        });
       } catch (error) {
         console.error(`Erro na consulta ${i + 1}:`, error);
       }

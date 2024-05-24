@@ -14,7 +14,7 @@ export const clipRoutes = () => {
 
   router.get("/getAllViews", new ClipController().getAllIds);
 
-  router.get("/getAllViewsZero", new ClipController().getAllIdsZero);
+  router.get("/getAllViewsDaily", new ClipController().getAllIdsDaily);
 
   return router;
 };
