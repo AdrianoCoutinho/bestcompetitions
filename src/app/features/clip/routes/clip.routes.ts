@@ -13,13 +13,13 @@ export const clipRoutes = () => {
     new ClipController().create
   );
 
-  router.get(
+  router.post(
     "/getAllViews",
     [checkLoginValidator],
     new ClipController().getAllIds
   );
 
-  router.get(
+  router.post(
     "/getAllViewsDaily",
     [checkLoginValidator, GetAllViewsDailyValitador.validate],
     new ClipController().getAllIdsDaily
