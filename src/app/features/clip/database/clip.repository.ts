@@ -48,11 +48,10 @@ export class ClipRepository {
     return ClipRepository.mapEntityToModel(result);
   }
 
-  public async listPerUser(idUser: string, idCompetition: string) {
+  public async listPerUser(idUser: string) {
     const result = await this.repository.find({
       where: {
         idUser: idUser,
-        idCompetition: idCompetition,
       },
       relations: ["user", "competition"],
     });
