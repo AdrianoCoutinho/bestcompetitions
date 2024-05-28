@@ -13,7 +13,13 @@ export const clipRoutes = () => {
     new ClipController().create
   );
 
-  router.get("/", [checkLoginValidator], new ClipController().listPerUser);
+  router.get("/user", [checkLoginValidator], new ClipController().listPerUser);
+
+  router.get(
+    "/competition",
+    [checkLoginValidator],
+    new ClipController().listPerCompetition
+  );
 
   router.post(
     "/getAllViews",
