@@ -21,7 +21,9 @@ export const getTiktokVideo = async (url: string): Promise<any> => {
       shouldDownloadSubtitles: false,
       shouldDownloadVideos: false,
     };
+
     const result = await axios.post("", data);
+
     return result.data;
   } catch (error: any) {
     if (error.request?.response) {

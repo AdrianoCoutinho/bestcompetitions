@@ -37,16 +37,16 @@ export class CreateClipUsecase {
 
     const videoData = await getTiktokVideo(data.url);
 
-    const competitionHashtag = competition.hashtag;
-    const hashtags = videoData[0].hashtags;
-
-    if (!hashtags) {
+    if (videoData.ok === false) {
       return {
         ok: false,
         code: 400,
-        message: `Video não disponível, verifique o video novamente.`,
+        message: "Clipe não encontrado.",
       };
     }
+
+    const competitionHashtag = competition.hashtag;
+    const hashtags = videoData[0].hashtags;
 
     const hashtagExists = hashtags.find((item: any) => {
       return item.name === competitionHashtag;
@@ -56,7 +56,7 @@ export class CreateClipUsecase {
       return {
         ok: false,
         code: 404,
-        message: `Não foi encontrada a hastag "${competitionHashtag}"`,
+        message: `Não foi encontrada a hashtag "${competitionHashtag}"`,
         data: hashtags,
       };
     }
@@ -82,7 +82,7 @@ export class CreateClipUsecase {
     return {
       ok: true,
       code: 201,
-      message: "O clip foi criado com sucesso.",
+      message: "O clipe adicionado com sucesso.",
       data: clip,
     };
   }
