@@ -33,6 +33,9 @@ export class ClipEntity {
   username: string;
 
   @Column()
+  description: string;
+
+  @Column()
   shareCount: number;
 
   @Column()

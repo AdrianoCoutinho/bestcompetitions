@@ -16,6 +16,9 @@ export class CompetitionEntity {
   @Column()
   name: string;
 
+  @Column()
+  description: string;
+
   @Column({ default: 0 })
   views: number;
 
@@ -47,6 +50,12 @@ export class CompetitionEntity {
 
   @Column({ default: true })
   indActive: boolean;
+
+  @Column()
+  thumbnailPhone: string;
+
+  @Column()
+  thumbnailDesktop: string;
 
   @Column({
     name: "id_user",

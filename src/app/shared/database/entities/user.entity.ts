@@ -48,6 +48,11 @@ export class UserEntity {
   })
   youtube: string;
 
+  @Column({
+    nullable: true,
+  })
+  photo: string;
+
   @CreateDateColumn({
     name: "dthr_register",
   })

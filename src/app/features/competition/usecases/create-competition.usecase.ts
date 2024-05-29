@@ -8,6 +8,9 @@ interface CreateCompetitionParams {
   initialDate: Date;
   finalDate: Date;
   hashtag: string;
+  description: string;
+  thumbnailPhone: string;
+  thumbnailDesktop: string;
   tiktok: string;
   instagram: string;
   youtube: string;
@@ -33,6 +36,9 @@ export class CreateCompetitionUsecase {
       data.finalDate,
       data.hashtag,
       user,
+      data.description,
+      data.thumbnailPhone,
+      data.thumbnailDesktop,
       "ninguém",
       0,
       data.tiktok,
