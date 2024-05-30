@@ -19,36 +19,8 @@ export class DailyWinRepository {
     return DailyWinRepository.mapEntityToModel(result);
   }
 
-  public async get(id: string) {
-    if (!id) {
-      return null;
-    }
-
-    const result = await this.repository.findOne({
-      where: {
-        id,
-      },
-      relations: ["user", "competition"],
-    });
-
-    if (result === null) {
-      return null;
-    }
-
-    return DailyWinRepository.mapEntityToModel(result);
-  }
-
-  public async listPerCompetition(idCompetition: string) {
-    if (!idCompetition) {
-      return null;
-    }
-
-    const result = await this.repository.find({
-      where: {
-        idCompetition: idCompetition,
-      },
-      relations: ["competition"],
-    });
+  public async list() {
+    const result = await this.repository.find();
 
     if (result === null) {
       return null;

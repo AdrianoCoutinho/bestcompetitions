@@ -35,18 +35,14 @@ export const createApp = () => {
 
   const publicDir = path.join(uploadServerEnv.secret || "./uploads");
 
-  // Configura o middleware para servir arquivos estáticos
   app.use("/arquivos", express.static(publicDir));
 
-  // Rota para listar todos os arquivos
   app.get("/listar-arquivos", (req, res) => {
-    // Lê os arquivos presentes no diretório 'publicDir'
     fs.readdir(publicDir, (err, files) => {
       if (err) {
         console.error("Erro ao ler diretório:", err);
         res.status(500).send("Erro ao listar os arquivos: " + err.message);
       } else {
-        // Envia a lista de arquivos como resposta
         res.send("Lista de arquivos: " + files.join(", "));
       }
     });

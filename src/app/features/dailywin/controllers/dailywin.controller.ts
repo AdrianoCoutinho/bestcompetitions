@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ApiError } from "../../../shared/errors/api.error";
 import { CreateDailyWinUsecase } from "../usecases/create-dailywin.usecase";
+import { ListDailyWinUsecase } from "../usecases/list-dailywin.usecase";
 
 export class DailyWinController {
   public async create(req: Request, res: Response) {
@@ -26,6 +27,17 @@ export class DailyWinController {
         ok: false,
         message: "erro, contate o administrador",
       });
+    } catch (error: any) {
+      return ApiError.serverError(res, error);
+    }
+  }
+
+  public async list(req: Request, res: Response) {
+    try {
+      const usecase = new ListDailyWinUsecase();
+      const result = await usecase.execute();
+
+      return res.status(result.code).send(result);
     } catch (error: any) {
       return ApiError.serverError(res, error);
     }

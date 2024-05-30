@@ -7,5 +7,7 @@ export const dailywinRoutes = () => {
 
   router.post("/", [checkLoginValidator], new DailyWinController().create);
 
+  router.get("/", [checkLoginValidator], new DailyWinController().list);
+
   return router;
 };
