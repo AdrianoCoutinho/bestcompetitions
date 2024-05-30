@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { uploadEnv } from "../../app/envs/upload.env";
 import { apifyRoutes } from "../../app/features/apify/routes/apify.routes";
 import { clipRoutes } from "../../app/features/clip/routes/clip.routes";
 import { competitionRoutes } from "../../app/features/competition/routes/competition.routes";
@@ -32,7 +33,7 @@ export const createApp = () => {
 
   app.use("/dailywin", dailywinRoutes());
 
-  const publicDir = path.join("../bestcompetitions/src/app/assets/public");
+  const publicDir = path.join(uploadEnv.secret || "../uploads");
 
   // Configura o middleware para servir arquivos estáticos
   app.use("/arquivos", express.static(publicDir));
