@@ -13,7 +13,7 @@ export class Clip {
     public username: string,
     public description: string,
     public diggCount: number,
-    public sharecount: number,
+    public shareCount: number,
     public avatarUrl: string,
     public videoUrl: string,
     public nickname: string,
@@ -36,7 +36,6 @@ export class Clip {
     avatarUrl: string,
     videoUrl: string,
     nickname: string,
-
     views: number
   ) {
     const clip = new Clip(
@@ -46,8 +45,8 @@ export class Clip {
       videoDate,
       username,
       description,
-      shareCount,
       diggCount,
+      shareCount,
       avatarUrl,
       videoUrl,
       nickname,
@@ -65,12 +64,12 @@ export class Clip {
     return {
       _id: this._id,
       url: this.url,
-      idUser: this.user,
-      idCompetition: this.competition,
+      idUser: this.user.id,
+      idCompetition: this.competition.id,
       videoDate: this.videoDate,
       username: this.username,
       description: this.description,
-      sharecount: this.sharecount,
+      shareCount: this.shareCount,
       avatarUrl: this.avatarUrl,
       videoUrl: this.videoUrl,
       nickname: this.nickname,

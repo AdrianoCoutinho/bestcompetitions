@@ -9,27 +9,29 @@ export class ClipRepository {
   private repository = TypeormConnection.connection.getRepository(ClipEntity);
 
   public async create(clip: Clip) {
-    // const videoDate = new Date(clip.videoDate);
-    // videoDate.setHours(12, 0, 0, 0);
     const clipEntity = this.repository.create({
       id: clip.id,
       url: clip.url,
       user: clip.user,
       competition: clip.competition,
-      // videoDate: videoDate,
       videoDate: clip.videoDate,
       diggCount: clip.diggCount,
       username: clip.username,
       description: clip.description,
-      shareCount: clip.sharecount,
+      shareCount: clip.shareCount, // Correção aqui: shareCount em vez de sharecount
       avatarUrl: clip.avatarUrl,
       videoUrl: clip.videoUrl,
       nickname: clip.nickname,
       views: clip.views,
     });
 
-    const result = await this.repository.save(clipEntity);
-    return ClipRepository.mapEntityToModel(result);
+    try {
+      const result = await this.repository.save(clipEntity);
+      return ClipRepository.mapEntityToModel(result);
+    } catch (error) {
+      console.error("Error saving clip:", error);
+      throw error;
+    }
   }
 
   public async get(id: string) {
@@ -131,7 +133,7 @@ export class ClipRepository {
     return result;
   }
 
-  public async UpdateView(id: string, data: any) {
+  public async updateView(id: string, data: any) {
     if (!id) {
       return null;
     }
@@ -144,8 +146,8 @@ export class ClipRepository {
       return null;
     }
 
-    if (Number.isNaN(data.playcount)) {
-      data.playcount = -1;
+    if (Number.isNaN(data.playCount)) {
+      data.playCount = -1;
     }
 
     result.views = data.playCount;
@@ -154,8 +156,13 @@ export class ClipRepository {
 
     result.shareCount = data.shareCount;
 
-    await this.repository.save(result);
-    return result;
+    try {
+      await this.repository.save(result);
+      return result;
+    } catch (error) {
+      console.error("Error updating clip:", error);
+      throw error;
+    }
   }
 
   public static mapEntityToModel(entity: ClipEntity): Clip {

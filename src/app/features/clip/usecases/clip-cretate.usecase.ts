@@ -67,6 +67,7 @@ export class CreateClipUsecase {
       competition,
       videoData[0].createTimeISO,
       videoData[0].authorMeta.name,
+      videoData[0].text,
       videoData[0].diggCount,
       videoData[0].shareCount,
       videoData[0].authorMeta.avatar,
