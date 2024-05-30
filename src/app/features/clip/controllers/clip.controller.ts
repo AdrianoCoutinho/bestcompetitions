@@ -60,6 +60,8 @@ export class ClipController {
     try {
       const { idCompetition, date } = req.body;
 
+      console.log(date);
+
       const usecase = new GetAllViewsDailyUsecase();
       const result = await usecase.execute({ idCompetition, date });
 

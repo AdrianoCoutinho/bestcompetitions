@@ -49,7 +49,7 @@ export class GetAllViewsUsecase {
       try {
         const result = await getView(url);
         results.push(...result.data);
-        await cliprepository.UpdateView(id, {
+        await cliprepository.updateView(id, {
           playCount: results[i].playCount,
           diggCount: results[i].diggCount,
           shareCount: results[i].shareCount,

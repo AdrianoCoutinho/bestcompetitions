@@ -93,7 +93,7 @@ export class ClipRepository {
       return null;
     }
 
-    const startDate = new Date(date);
+    const startDate = new Date(`${date}T00:00:00.000Z`);
     const endDate = new Date(`${date}T23:59:59.999Z`);
 
     const result = await this.repository.find({
