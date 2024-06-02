@@ -25,11 +25,10 @@ export class CreateDailyWinUsecase {
         ok: false,
         code: 400,
         message: "Não há videos.",
-        data: listdailywin,
+        data: date,
       };
     }
     const videoDate = new Date(date);
-    videoDate.setHours(+33, 0, 0, 0);
     const dailywin = new DailyWin(
       new Date(videoDate),
       listdailywin,
