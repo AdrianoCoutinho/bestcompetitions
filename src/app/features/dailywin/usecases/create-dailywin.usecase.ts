@@ -28,12 +28,25 @@ export class CreateDailyWinUsecase {
         data: date,
       };
     }
+
+    const result = listdailywin.reduce((acc: any, video: any) => {
+      const profilePicture = video.user.photo;
+      const user = video.user.email;
+      const views = video.views;
+      const email = video.user.email;
+
+      if (!acc[email]) {
+        acc[email] = { profilePicture, user, views: 0, date, email };
+      }
+      acc[email].views += views;
+
+      return acc;
+    }, {});
+
+    const resultArray = Object.values(result);
+
     const videoDate = new Date(date);
-    const dailywin = new DailyWin(
-      new Date(videoDate),
-      listdailywin,
-      competition
-    );
+    const dailywin = new DailyWin(videoDate, resultArray, competition);
     const repository = new DailyWinRepository();
     await repository.create(dailywin);
 
@@ -41,7 +54,7 @@ export class CreateDailyWinUsecase {
       ok: true,
       code: 201,
       message: "Os 10 primeiros clipadores foram listados com sucesso.",
-      data: listdailywin,
+      data: resultArray,
     };
   }
 }
