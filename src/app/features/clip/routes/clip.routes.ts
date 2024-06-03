@@ -15,7 +15,7 @@ export const clipRoutes = () => {
 
   router.get("/user", [checkLoginValidator], new ClipController().listPerUser);
 
-  router.get(
+  router.post(
     "/competition",
     [checkLoginValidator],
     new ClipController().listPerCompetition

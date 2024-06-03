@@ -2,23 +2,22 @@ import axios from "axios";
 import { apifyEnv } from "../../../envs/apify.env";
 import { Return } from "../../../shared/util/return.contract";
 import { ClipRepository } from "../../clip/database/clip.repository";
-import { CompetitionRepository } from "../../competition/database/competition.repository";
 
 axios.defaults.baseURL = apifyEnv.secret;
 
 interface IGetUser {
-  idCompetition?: string;
+  idCompetition: string;
 }
 
 export class ListPerCompetitionUsecase {
-  public async execute(data?: IGetUser): Promise<Return> {
-    const competitionRepository = new CompetitionRepository();
-    const competitionEmphasis =
-      await competitionRepository.getEmphasisCompetition();
+  public async execute(data: IGetUser): Promise<Return> {
+    // const competitionRepository = new CompetitionRepository();
+    // const competitionEmphasis =
+    //   await competitionRepository.getEmphasisCompetition();
 
     const cliprepository = new ClipRepository();
     const clipList = await cliprepository.listPerCompetition(
-      competitionEmphasis
+      data.idCompetition
     );
 
     if (clipList === null) {

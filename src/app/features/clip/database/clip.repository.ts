@@ -18,7 +18,7 @@ export class ClipRepository {
       diggCount: clip.diggCount,
       username: clip.username,
       description: clip.description,
-      shareCount: clip.shareCount, // Correção aqui: shareCount em vez de sharecount
+      shareCount: clip.shareCount,
       avatarUrl: clip.avatarUrl,
       videoUrl: clip.videoUrl,
       nickname: clip.nickname,
