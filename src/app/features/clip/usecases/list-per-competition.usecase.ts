@@ -11,10 +11,6 @@ interface IGetUser {
 
 export class ListPerCompetitionUsecase {
   public async execute(data: IGetUser): Promise<Return> {
-    // const competitionRepository = new CompetitionRepository();
-    // const competitionEmphasis =
-    //   await competitionRepository.getEmphasisCompetition();
-
     const cliprepository = new ClipRepository();
     const clipList = await cliprepository.listPerCompetition(
       data.idCompetition
@@ -33,14 +29,18 @@ export class ListPerCompetitionUsecase {
       const tiktok = video.user.tiktok;
       const instagram = video.user.instagram;
       const youtube = video.user.youtube;
+
       if (!acc[email]) {
         acc[email] = { user: email, tiktok, instagram, youtube, views: 0 };
       }
+
       acc[email].views += video.views;
       return acc;
     }, {});
 
     const resultArray = Object.values(result);
+
+    resultArray.sort((a: any, b: any) => b.views - a.views);
 
     return {
       ok: true,
