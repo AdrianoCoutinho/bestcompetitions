@@ -1,5 +1,6 @@
 import { Clip } from "../../../models/clip.model";
 import { getTiktokVideo } from "../../../shared/apify";
+import { PlatformType, StatusType } from "../../../shared/enum";
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 import { UserRepository } from "../../user/database/user.repository";
@@ -7,6 +8,7 @@ import { ClipRepository } from "../database/clip.repository";
 
 interface CreateClipParams {
   url: string;
+  type: PlatformType;
   idUser: string;
   idCompetition: string;
 }
@@ -70,9 +72,10 @@ export class CreateClipUsecase {
       videoData[0].text,
       videoData[0].diggCount,
       videoData[0].shareCount,
-      videoData[0].authorMeta.avatar,
       videoData[0].submittedVideoUrl,
       videoData[0].authorMeta.nickName,
+      data.type,
+      StatusType.PENDING,
       videoData[0].playCount
     );
 

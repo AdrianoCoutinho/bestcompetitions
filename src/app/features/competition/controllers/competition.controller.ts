@@ -50,8 +50,6 @@ export class CompetitionController {
         };
 
         if (!files["thumbnailDesktop"] || !files["thumbnailPhone"]) {
-          console.log("Arquivos recebidos:", files);
-
           return res.status(400).send({
             ok: false,
             message: "Imagens não carregadas.",

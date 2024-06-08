@@ -9,7 +9,7 @@ import { ListPerUserUsecase } from "../usecases/list-per-user.usecase";
 export class ClipController {
   public async create(req: Request, res: Response) {
     try {
-      const { url, idCompetition } = req.body;
+      const { url, idCompetition, type } = req.body;
 
       const authToken = req.headers["user"];
 
@@ -28,6 +28,7 @@ export class ClipController {
         const usecase = new CreateClipUsecase();
         const result = await usecase.execute({
           url,
+          type,
           idCompetition,
           idUser,
         });
@@ -59,8 +60,6 @@ export class ClipController {
   public async getAllIdsDaily(req: Request, res: Response) {
     try {
       const { idCompetition, date } = req.body;
-
-      console.log(date);
 
       const usecase = new GetAllViewsDailyUsecase();
       const result = await usecase.execute({ idCompetition, date });

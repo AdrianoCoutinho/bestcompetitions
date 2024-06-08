@@ -7,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+
+import { PlatformType, StatusType } from "../../enum";
 import { CompetitionEntity } from "./competition.entity";
 import { UserEntity } from "./user.entity";
 
@@ -39,13 +41,22 @@ export class ClipEntity {
   shareCount: number;
 
   @Column()
-  avatarUrl: string;
-
-  @Column()
   videoUrl: string;
 
   @Column()
   nickname: string;
+
+  @Column({
+    type: "enum",
+    enum: PlatformType,
+  })
+  type: PlatformType;
+
+  @Column({
+    type: "enum",
+    enum: StatusType,
+  })
+  status: StatusType;
 
   @Column({
     name: "id_user",

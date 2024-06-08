@@ -19,9 +19,10 @@ export class ClipRepository {
       username: clip.username,
       description: clip.description,
       shareCount: clip.shareCount,
-      avatarUrl: clip.avatarUrl,
       videoUrl: clip.videoUrl,
       nickname: clip.nickname,
+      type: clip.type,
+      status: clip.status,
       views: clip.views,
     });
 
@@ -183,9 +184,10 @@ export class ClipRepository {
       entity.description,
       entity.diggCount,
       entity.shareCount,
-      entity.avatarUrl,
       entity.videoUrl,
       entity.nickname,
+      entity.type,
+      entity.status,
       entity.views
     );
 

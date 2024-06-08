@@ -1,4 +1,5 @@
 import { v4 as createUuid } from "uuid";
+import { PlatformType, StatusType } from "../shared/enum";
 import { Competition } from "./competition.model";
 import { User } from "./user.model";
 
@@ -14,10 +15,10 @@ export class Clip {
     public description: string,
     public diggCount: number,
     public shareCount: number,
-    public avatarUrl: string,
     public videoUrl: string,
     public nickname: string,
-
+    public type: PlatformType,
+    public status: StatusType,
     public views?: number
   ) {
     this._id = createUuid();
@@ -33,9 +34,10 @@ export class Clip {
     description: string,
     diggCount: number,
     shareCount: number,
-    avatarUrl: string,
     videoUrl: string,
     nickname: string,
+    type: PlatformType,
+    status: StatusType,
     views: number
   ) {
     const clip = new Clip(
@@ -47,9 +49,10 @@ export class Clip {
       description,
       diggCount,
       shareCount,
-      avatarUrl,
       videoUrl,
       nickname,
+      type,
+      status,
       views
     );
     clip._id = id;
@@ -70,9 +73,10 @@ export class Clip {
       username: this.username,
       description: this.description,
       shareCount: this.shareCount,
-      avatarUrl: this.avatarUrl,
       videoUrl: this.videoUrl,
       nickname: this.nickname,
+      type: this.type,
+      status: this.status,
       views: this.views,
     };
   }
