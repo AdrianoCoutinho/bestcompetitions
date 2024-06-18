@@ -21,6 +21,9 @@ export class CreateClipUsecase {
     const competitionRepository = new CompetitionRepository();
     const competition = await competitionRepository.get(data.idCompetition);
 
+    const clipRepository = new ClipRepository();
+    const clipByUrl = await clipRepository.getByUrl(data.url);
+
     if (!user) {
       return {
         ok: false,
@@ -34,6 +37,14 @@ export class CreateClipUsecase {
         ok: false,
         code: 404,
         message: "Competição não encontrada.",
+      };
+    }
+
+    if (clipByUrl) {
+      return {
+        ok: false,
+        code: 400,
+        message: "Este clip já esta cadastrado.",
       };
     }
 

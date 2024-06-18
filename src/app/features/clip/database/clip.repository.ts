@@ -70,6 +70,21 @@ export class ClipRepository {
     return result;
   }
 
+  public async getByUrl(url: string) {
+    const result = await this.repository.find({
+      where: {
+        url: url,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
   public async listPerCompetition(idCompetition: string) {
     if (!idCompetition) {
       return null;
