@@ -40,13 +40,13 @@ export class CreateClipUsecase {
       };
     }
 
-    // if (clipByUrl) {
-    //   return {
-    //     ok: false,
-    //     code: 400,
-    //     message: "Este clip já está cadastrado.",
-    //   };
-    // }
+    if (clipByUrl) {
+      return {
+        ok: false,
+        code: 400,
+        message: "Este clip já está cadastrado.",
+      };
+    }
 
     const videoData = await getTiktokVideo(data.url);
 

@@ -25,7 +25,7 @@ export class ClipController {
         const userObject = JSON.parse(authToken);
         const idUser = userObject._id;
 
-        const video = await Queue.add({ url, type, idCompetition, idUser });
+        await Queue.add({ url, type, idCompetition, idUser });
         return res.status(200).send({
           ok: true,
           message: "adicionado a fila",

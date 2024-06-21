@@ -71,11 +71,10 @@ export class ClipRepository {
   }
 
   public async getByUrl(url: string) {
-    const result = await this.repository.find({
+    const result = await this.repository.findOne({
       where: {
         url: url,
       },
-      relations: ["user", "competition"],
     });
 
     if (result === null) {
