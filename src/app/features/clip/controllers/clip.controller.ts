@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import Queue from "../../../queues/queue";
 import { ApiError } from "../../../shared/errors/api.error";
-import { CreateClipUsecase } from "../usecases/clip-cretate.usecase";
 import { GetAllViewsDailyUsecase } from "../usecases/get-all-views-daily.usecase";
 import { GetAllViewsUsecase } from "../usecases/get-all-views.usecase";
 import { ListPerCompetitionUsecase } from "../usecases/list-per-competition.usecase";
@@ -25,14 +25,11 @@ export class ClipController {
         const userObject = JSON.parse(authToken);
         const idUser = userObject._id;
 
-        const usecase = new CreateClipUsecase();
-        const result = await usecase.execute({
-          url,
-          type,
-          idCompetition,
-          idUser,
+        const video = await Queue.add({ url, type, idCompetition, idUser });
+        return res.status(200).send({
+          ok: true,
+          message: "adicionado a fila",
         });
-        return res.status(result.code).send(result);
       }
 
       return res.status(500).send({

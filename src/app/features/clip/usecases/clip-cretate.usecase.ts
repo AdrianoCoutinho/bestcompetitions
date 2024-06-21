@@ -40,13 +40,13 @@ export class CreateClipUsecase {
       };
     }
 
-    if (clipByUrl) {
-      return {
-        ok: false,
-        code: 400,
-        message: "Este clip já esta cadastrado.",
-      };
-    }
+    // if (clipByUrl) {
+    //   return {
+    //     ok: false,
+    //     code: 400,
+    //     message: "Este clip já está cadastrado.",
+    //   };
+    // }
 
     const videoData = await getTiktokVideo(data.url);
 
@@ -61,9 +61,9 @@ export class CreateClipUsecase {
     const competitionHashtag = competition.hashtag;
     const hashtags = videoData[0].hashtags;
 
-    const hashtagExists = hashtags.find((item: any) => {
-      return item.name === competitionHashtag;
-    });
+    const hashtagExists = hashtags.find(
+      (item: any) => item.name === competitionHashtag
+    );
 
     if (!hashtagExists) {
       return {
@@ -90,14 +90,12 @@ export class CreateClipUsecase {
       videoData[0].playCount
     );
 
-    const repository = new ClipRepository();
-
-    await repository.create(clip);
+    await clipRepository.create(clip);
 
     return {
       ok: true,
       code: 201,
-      message: "O clipe adicionado com sucesso.",
+      message: "O clipe foi adicionado com sucesso.",
       data: clip,
     };
   }

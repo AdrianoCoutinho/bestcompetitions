@@ -6,6 +6,7 @@
     "start": "node ./build/index.js",
     "postinstall": "npm install typescript && npx tsc",
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "dev:queue": "ts-node-dev --respawn --transpile-only ./src/main/config/queue.config.ts",
     "dev:debug": "ts-node-dev --inspect --respawn --transpile-only ./src/index.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npm run typeorm migration:generate -- -d ./src/main/config/typeorm.config.ts",
