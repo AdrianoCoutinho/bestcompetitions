@@ -7,6 +7,12 @@ export default {
     const { url, type, idCompetition, idUser } = data;
     const usecase = new CreateClipUsecase();
     const result = await usecase.execute({ url, type, idCompetition, idUser });
-    console.log("Clip created successfully", result);
+    const message = {
+      ok: result.ok,
+      code: result.code,
+      message: result.message,
+      data: result.data,
+    };
+    console.log(message);
   },
 };

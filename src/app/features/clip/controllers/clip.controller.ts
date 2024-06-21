@@ -28,7 +28,8 @@ export class ClipController {
         await Queue.add({ url, type, idCompetition, idUser });
         return res.status(200).send({
           ok: true,
-          message: "adicionado a fila",
+          code: 200,
+          message: "Seu video foi adicionado para análise.",
         });
       }
 

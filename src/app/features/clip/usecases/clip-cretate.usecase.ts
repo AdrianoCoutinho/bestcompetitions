@@ -1,5 +1,9 @@
 import { Clip } from "../../../models/clip.model";
-import { getTiktokVideo } from "../../../shared/apify";
+import {
+  getInstagramReelsVideo,
+  getTiktokVideo,
+  getYoutubeShortVideo,
+} from "../../../shared/apify";
 import { PlatformType, StatusType } from "../../../shared/enum";
 import { Return } from "../../../shared/util/return.contract";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
@@ -48,22 +52,59 @@ export class CreateClipUsecase {
       };
     }
 
-    const videoData = await getTiktokVideo(data.url);
+    let videoData = [];
 
-    if (videoData.ok === false) {
+    if (data.type === "tiktok") {
+      videoData = await getTiktokVideo(data.url);
+    }
+
+    if (data.type === "instagram") {
+      videoData = await getInstagramReelsVideo(data.url);
+    }
+
+    if (data.type === "youtube") {
+      videoData = await getYoutubeShortVideo(data.url);
+    }
+
+    if (videoData === null) {
       return {
         ok: false,
-        code: 400,
+        code: 404,
         message: "Clipe não encontrado.",
       };
     }
 
     const competitionHashtag = competition.hashtag;
-    const hashtags = videoData[0].hashtags;
 
-    const hashtagExists = hashtags.find(
-      (item: any) => item.name === competitionHashtag
-    );
+    if (!videoData[0]) {
+      return {
+        ok: false,
+        code: 404,
+        message: "Clipe não encontrado.",
+      };
+    }
+
+    let hashtags = videoData[0].hashtags;
+
+    let hashtagExists = [];
+
+    if (data.type === "tiktok") {
+      hashtagExists = hashtags.find(
+        (item: any) => item.name === competitionHashtag
+      );
+    }
+
+    if (data.type === "instagram") {
+      hashtagExists = hashtags.find((item: any) => item === competitionHashtag);
+    }
+
+    if (data.type === "youtube") {
+      const hashtagsFind = await videoData[0].title.match(/#\w+/g);
+      hashtags = videoData[0].title;
+      const result = (hashtagExists = hashtagsFind.find(
+        (item: string) => item === `#${competitionHashtag}`
+      ));
+    }
 
     if (!hashtagExists) {
       return {
@@ -78,16 +119,64 @@ export class CreateClipUsecase {
       data.url,
       user,
       competition,
-      videoData[0].createTimeISO,
-      videoData[0].authorMeta.name,
-      videoData[0].text,
-      videoData[0].diggCount,
-      videoData[0].shareCount,
-      videoData[0].submittedVideoUrl,
-      videoData[0].authorMeta.nickName,
+      data.type === "tiktok"
+        ? videoData[0].createTimeISO
+        : data.type === "instagram"
+        ? videoData[0].timestamp
+        : data.type === "youtube"
+        ? videoData[0].date
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].authorMeta.name
+        : data.type === "instagram"
+        ? videoData[0].ownerUsername
+        : data.type === "youtube"
+        ? videoData[0].channelName
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].text
+        : data.type === "instagram"
+        ? videoData[0].caption
+        : data.type === "youtube"
+        ? videoData[0].title
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].diggCount
+        : data.type === "instagram"
+        ? videoData[0].likesCount
+        : data.type === "youtube"
+        ? videoData[0].likes
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].shareCount
+        : data.type === "instagram"
+        ? 0
+        : data.type === "youtube"
+        ? 0
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].submittedVideoUrl
+        : data.type === "instagram"
+        ? videoData[0].videoUrl
+        : data.type === "youtube"
+        ? videoData[0].url
+        : null,
+      data.type === "tiktok"
+        ? videoData[0].authorMeta.nickName
+        : data.type === "instagram"
+        ? videoData[0].ownerFullName
+        : data.type === "youtube"
+        ? videoData[0].channelName
+        : null,
       data.type,
-      StatusType.PENDING,
-      videoData[0].playCount
+      StatusType.ACTIVE,
+      data.type === "tiktok"
+        ? videoData[0].playCount
+        : data.type === "instagram"
+        ? videoData[0].videoPlayCount
+        : data.type === "youtube"
+        ? videoData[0].viewCount
+        : null
     );
 
     await clipRepository.create(clip);
@@ -96,7 +185,7 @@ export class CreateClipUsecase {
       ok: true,
       code: 201,
       message: "O clipe foi adicionado com sucesso.",
-      data: clip,
+      data: videoData,
     };
   }
 }
