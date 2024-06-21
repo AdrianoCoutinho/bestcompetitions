@@ -157,7 +157,7 @@ export class CreateClipUsecase {
       data.type === "tiktok"
         ? videoData[0].submittedVideoUrl
         : data.type === "instagram"
-        ? videoData[0].videoUrl
+        ? videoData[0].inputUrl
         : data.type === "youtube"
         ? videoData[0].url
         : null,
