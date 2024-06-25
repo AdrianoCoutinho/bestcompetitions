@@ -15,7 +15,7 @@ export default new DataSource({
   username: databaseEnv.username,
   password: databaseEnv.password,
   database: databaseEnv.database,
-  schema: "bestcompetitions",
+  schema: "public",
   synchronize: false,
   ssl: {
     rejectUnauthorized: false,
