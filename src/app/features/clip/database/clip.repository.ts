@@ -2,6 +2,7 @@ import { Between } from "typeorm";
 import { TypeormConnection } from "../../../../main/database/typeorm.connection";
 import { Clip } from "../../../models/clip.model";
 import { ClipEntity } from "../../../shared/database/entities/clip.entity";
+import { PlatformType } from "../../../shared/enum";
 import { CompetitionRepository } from "../../competition/database/competition.repository";
 import { UserRepository } from "../../user/database/user.repository";
 
@@ -59,6 +60,57 @@ export class ClipRepository {
       where: {
         idUser: idUser,
         idCompetition: idCompetition,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
+  public async listTiktokPerUser(idUser: string, idCompetition?: string) {
+    const result = await this.repository.find({
+      where: {
+        idUser: idUser,
+        idCompetition: idCompetition,
+        type: PlatformType.TIKTOK,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
+  public async listInstagramPerUser(idUser: string, idCompetition?: string) {
+    const result = await this.repository.find({
+      where: {
+        idUser: idUser,
+        idCompetition: idCompetition,
+        type: PlatformType.INSTAGRAM,
+      },
+      relations: ["user", "competition"],
+    });
+
+    if (result === null) {
+      return null;
+    }
+
+    return result;
+  }
+
+  public async listShortsPerUser(idUser: string, idCompetition?: string) {
+    const result = await this.repository.find({
+      where: {
+        idUser: idUser,
+        idCompetition: idCompetition,
+        type: PlatformType.YOUTUBE,
       },
       relations: ["user", "competition"],
     });

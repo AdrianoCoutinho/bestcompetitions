@@ -15,6 +15,24 @@ export const clipRoutes = () => {
 
   router.get("/user", [checkLoginValidator], new ClipController().listPerUser);
 
+  router.get(
+    "/user/tiktok/total",
+    [checkLoginValidator],
+    new ClipController().listTiktokClipsTotal
+  );
+
+  router.get(
+    "/user/instagram/total",
+    [checkLoginValidator],
+    new ClipController().listInstagramClipsTotal
+  );
+
+  router.get(
+    "/user/youtube/total",
+    [checkLoginValidator],
+    new ClipController().listYoutubeClipsTotal
+  );
+
   router.post(
     "/competition",
     [checkLoginValidator],

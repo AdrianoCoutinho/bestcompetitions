@@ -16,7 +16,7 @@ const clipQueue = new Queue("createClip", redisConfig);
 clipQueue.process(createClipJob.handle);
 
 clipQueue.on("completed", (job: any, result: any) => {
-  console.log(`Job ${job.id} completed with result ${result}`);
+  // console.log(`Job ${job.id} completed with result ${result}`);
 });
 
 clipQueue.on("failed", (job: any, err: any) => {

@@ -13,6 +13,5 @@ export default {
       message: result.message,
       data: result.data,
     };
-    console.log(message);
   },
 };
