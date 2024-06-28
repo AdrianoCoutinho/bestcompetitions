@@ -104,6 +104,7 @@ export class CreateClipUsecase {
       hashtagExists = hashtagsFind.find(
         (item: string) => item === `#${competitionHashtag}`
       );
+      console.log("hashtags" + hashtagsFind);
     }
 
     if (!hashtagExists) {
