@@ -99,11 +99,11 @@ export class CreateClipUsecase {
     }
 
     if (data.type === "youtube") {
-      const hashtagsFind = await videoData[0].title.match(/#\w+/g);
+      const hashtagsFind = await videoData[0].title.match(/#(\p{L}+)/gu);
       hashtags = videoData[0].title;
-      const result = (hashtagExists = hashtagsFind.find(
+      hashtagExists = hashtagsFind.find(
         (item: string) => item === `#${competitionHashtag}`
-      ));
+      );
     }
 
     if (!hashtagExists) {
